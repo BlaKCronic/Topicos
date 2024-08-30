@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 public class Calculadora extends Stage {
 
     private Button[][] arrbtn;
+    private Button btnClear;
     private TextField txtPantalla;
     private GridPane teclado;
     private VBox vbox;
@@ -23,12 +24,17 @@ public class Calculadora extends Stage {
         txtPantalla.setAlignment(Pos.CENTER_RIGHT);
         txtPantalla.setEditable(false);
         teclado = new GridPane();
+        btnClear = new Button("C");
+        btnClear.setPrefSize(50,50);
+        btnClear.setOnAction(actionEvent -> txtPantalla.clear());
         CrearTeclado();
         vbox = new VBox(txtPantalla, teclado);
+        vbox.setAlignment(Pos.CENTER);
         escena = new Scene(vbox, 200, 200);
     }
 
     private void CrearTeclado(){
+        teclado.add(btnClear, 0,0);
         for (int i = 0; i < arrbtn.length; i++){
             for (int j = 0; j < arrbtn.length; j++) {
                 arrbtn[j][i] = new Button(strTeclas[4*i+j]);
@@ -36,7 +42,7 @@ public class Calculadora extends Stage {
                 int finalI = i;
                 int finalJ = j;
                 arrbtn[j][i].setOnAction(actionEvent -> detectarTecla(strTeclas[4* finalI + finalJ]));
-                teclado.add(arrbtn[j][i],j,i);
+                teclado.add(arrbtn[j][i],j + 1,i + 1);
             }
         }
     }
