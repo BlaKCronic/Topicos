@@ -1,0 +1,56 @@
+/* main.css */
+
+/* Fondo de la aplicación */
+.root {
+    -fx-background-image: url("https://fondosmil.co/fondo/455.png");
+    -fx-background-size: cover;
+}
+
+/* Estilos para el VBox que contiene el título y el MenuBar */
+#top-box {
+    -fx-alignment: center;
+    -fx-padding: 10;
+    -fx-spacing: 5;
+}
+
+/* Estilo del Label del título */
+#title-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente para mejor visibilidad */
+    -fx-padding: 10;
+    -fx-background-radius: 5;
+}
+
+/* Estilos para el MenuBar */
+.menu-bar {
+    -fx-background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+}
+
+/* Estilos para los Menus */
+.menu {
+    -fx-text-fill: white;
+}
+
+/* Estilos para los MenuItems */
+.menu-item {
+    -fx-text-fill: white;
+    -fx-padding: 10;
+    -fx-background-color: rgba(0, 0, 0, 0.3); /* Fondo semitransparente */
+}
+
+/* Hover effect for MenuItems */
+.menu-item:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.3); /* Fondo semi-blanco para el hover */
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.root {
+    animation: fadeIn 1s ease-in-out;
+}
