@@ -24,6 +24,7 @@ public class Calculadora extends Stage {
         txtPantalla.setAlignment(Pos.CENTER_RIGHT);
         txtPantalla.setEditable(false);
         teclado = new GridPane();
+        teclado.getStyleClass().add("grid-pane"); // Agregar la clase CSS al GridPane
         //se agrega elboton de borrar('C').
         btnClear = new Button("C");
         btnClear.setPrefSize(50,50);
@@ -31,7 +32,9 @@ public class Calculadora extends Stage {
         CrearTeclado();
         vbox = new VBox(txtPantalla, teclado);
         vbox.setAlignment(Pos.CENTER);
-        escena = new Scene(vbox, 200, 200);
+        escena = new Scene(vbox, 250, 300);
+        escena.getStylesheets().add(getClass().getResource("/styles/cal.css").toExternalForm());
+
     }
 
     private void CrearTeclado(){
