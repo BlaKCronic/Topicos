@@ -70,14 +70,30 @@ public class Calculadora extends Stage {
     //metodo que verifica expresiones,en caso de ser erronea imprime un "ERROR"
     private void evaluarExpresion(){
         String expresion = txtPantalla.getText().replace("=", "");
-        try{
+        if (!expresionValida(expresion)) {
+            txtPantalla.setText("ERROR");
+        } else {
             double resultado = evaluar(expresion);
             txtPantalla.setText(String.valueOf(resultado));
         }
-        catch (Exception e){
-            txtPantalla.setText("ERROR");
-            //esta excepcion no esta pulida aun, ya que el "ERROR" lo reconoce como caracter, deberá limpiarce la pantalla para que no cause problemas
+    }
+
+    private boolean expresionValida(String expresion) {
+        // Checa caracteres validos
+        for (char c : expresion.toCharArray()) {
+            if (!Character.isDigit(c) && c != '+' && c != '-' && c != '*' && c != '/' && c != '.') {
+                return false;
+            }
         }
+        // checa si la sintaxis es correcta
+        for (int i = 0; i < expresion.length() - 1; i++) {
+            char c1 = expresion.charAt(i);
+            char c2 = expresion.charAt(i + 1);
+            if ((c1 == '+' || c1 == '-' || c1 == '*' || c1 == '/') && (c2 == '+' || c2 == '-' || c2 == '*' || c2 == '/')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /*
@@ -94,6 +110,7 @@ public class Calculadora extends Stage {
                 ch = (++pos < expresion.length()) ? expresion.charAt(pos) : -1;
             }
 
+            //La función eat es un metodo que forma parte de la clase anónima que se utiliza para parsear la expresión matemática
             boolean eat(int charToEat){
                 while (ch == ' ') nextChar();
                 if (ch == charToEat) {
@@ -104,10 +121,13 @@ public class Calculadora extends Stage {
             }
 
             //procesos de parsing(analisis matematico)
+            /*Si quedan caracteres restantes (pos < expresion.length()),
+            significa que el analizador encontró un carácter inesperado y se lanza una RuntimeException
+            con un mensaje que indica el carácter inesperado.*/
             double parse() {
                 nextChar();
                 double x = parseExpression();
-                if (pos < expresion.length()) throw new RuntimeException("Unexpected: " + (char)ch);
+                if (pos < expresion.length()) throw new RuntimeException("Caracter inesperado: " + (char)ch);
                 return x;
             }
 
@@ -142,7 +162,7 @@ public class Calculadora extends Stage {
                     while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
                     x = Double.parseDouble(expresion.substring(startPos, this.pos));
                 } else {
-                    throw new RuntimeException("Unexpected: " + (char)ch);
+                    throw new RuntimeException("Caracter inesperado: " + (char)ch);
                 }
 
                 return x;
