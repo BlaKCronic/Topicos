@@ -16,9 +16,13 @@ public class Calculadora extends Stage {
     private GridPane teclado;
     private VBox vbox;
     private Scene escena;
-    private String[] strTeclas = {"7","8","9","*","4","5","6","/","1","2","3","+","0",".","=","-"};
+    private String[] strTeclas = {"7", "8", "9", "*", "4", "5", "6", "/", "1", "2", "3", "+", "0", ".", "=", "-"};
 
-    private void CrearUI(){
+    private double num1 = 0;
+    private double num2 = 0;
+    private String operador = "";
+
+    private void CrearUI() {
         arrbtn = new Button[4][4];
         txtPantalla = new TextField("");
         txtPantalla.setAlignment(Pos.CENTER_RIGHT);
@@ -27,146 +31,116 @@ public class Calculadora extends Stage {
         teclado.getStyleClass().add("grid-pane"); // Agregar la clase CSS al GridPane
         //se agrega elboton de borrar('C').
         btnClear = new Button("C");
-        btnClear.setPrefSize(50,50);
-        btnClear.setOnAction(actionEvent -> txtPantalla.clear());
+        btnClear.setPrefSize(50, 50);
+        btnClear.setOnAction(actionEvent -> limpiarCalculadora());
         CrearTeclado();
         vbox = new VBox(txtPantalla, teclado);
         vbox.setAlignment(Pos.CENTER);
         escena = new Scene(vbox, 250, 300);
         escena.getStylesheets().add(getClass().getResource("/styles/cal.css").toExternalForm());
-
     }
 
-    private void CrearTeclado(){
-        teclado.add(btnClear, 0,0);
-        for (int i = 0; i < arrbtn.length; i++){
+    private void CrearTeclado() {
+        teclado.add(btnClear, 0, 0);
+        for (int i = 0; i < arrbtn.length; i++) {
             for (int j = 0; j < arrbtn.length; j++) {
-                arrbtn[j][i] = new Button(strTeclas[4*i+j]);
+                arrbtn[j][i] = new Button(strTeclas[4 * i + j]);
                 arrbtn[j][i].setPrefSize(50, 50);
                 int finalI = i;
                 int finalJ = j;
-                arrbtn[j][i].setOnAction(actionEvent -> detectarTecla(strTeclas[4* finalI + finalJ]));
-                teclado.add(arrbtn[j][i],j + 1,i + 1);
+                arrbtn[j][i].setOnAction(actionEvent -> detectarTecla(strTeclas[4 * finalI + finalJ]));
+                teclado.add(arrbtn[j][i], j + 1, i + 1);
             }
         }
     }
 
-    public Calculadora(){
+    public Calculadora() {
         CrearUI();
         this.setTitle("Calculadora");
         this.setScene(escena);
         this.show();
     }
 
-    //accion de latecla =
-    private void detectarTecla(String tecla){
-        if (tecla.equals("=")) {
-            evaluarExpresion();
-        } else {
-            txtPantalla.appendText(tecla);
-        }
-    }
-
-    //metodo que verifica expresiones,en caso de ser erronea imprime un "ERROR"
-    private void evaluarExpresion(){
-        String expresion = txtPantalla.getText().replace("=", "");
-        if (!expresionValida(expresion)) {
-            txtPantalla.setText("ERROR");
-        } else {
-            double resultado = evaluar(expresion);
-            txtPantalla.setText(String.valueOf(resultado));
-        }
-    }
-
-    private boolean expresionValida(String expresion) {
-        // Checa caracteres validos
-        for (char c : expresion.toCharArray()) {
-            if (!Character.isDigit(c) && c != '+' && c != '-' && c != '*' && c != '/' && c != '.') {
-                return false;
-            }
-        }
-        // checa si la sintaxis es correcta
-        for (int i = 0; i < expresion.length() - 1; i++) {
-            char c1 = expresion.charAt(i);
-            char c2 = expresion.charAt(i + 1);
-            if ((c1 == '+' || c1 == '-' || c1 == '*' || c1 == '/') && (c2 == '+' || c2 == '-' || c2 == '*' || c2 == '/')) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /*
-    pos: La posición actual en la expresión.
-    ch: El carácter actual en la expresión.
-    nextChar(): Avanza a la siguiente posición en la expresión y actualiza el valor de ch. Si se ha alcanzado el final de la expresión, asigna -1 a ch.
-    eat(int charToEat): Verifica si el carácter actual es igual a charToEat. Si es así, avanza a la siguiente posición en la expresión y devuelve true.Si no, devuelve false. Ignora los espacios en blanco.
-    */
-    private double evaluar(String expresion){
-        return new Object(){
-            int pos = -1, ch;
-
-            void nextChar(){
-                ch = (++pos < expresion.length()) ? expresion.charAt(pos) : -1;
-            }
-
-            //La función eat es un metodo que forma parte de la clase anónima que se utiliza para parsear la expresión matemática
-            boolean eat(int charToEat){
-                while (ch == ' ') nextChar();
-                if (ch == charToEat) {
-                    nextChar();
-                    return  true;
-                }
-                return  false;
-            }
-
-            //procesos de parsing(analisis matematico)
-            /*Si quedan caracteres restantes (pos < expresion.length()),
-            significa que el analizador encontró un carácter inesperado y se lanza una RuntimeException
-            con un mensaje que indica el carácter inesperado.*/
-            double parse() {
-                nextChar();
-                double x = parseExpression();
-                if (pos < expresion.length()) throw new RuntimeException("Caracter inesperado: " + (char)ch);
-                return x;
-            }
-
-            //metodo responsable de las sumas y restas
-            double parseExpression(){
-                double x = parseTerm();
-                for (;;){
-                    if (eat('+')) x += parseTerm(); //suma
-                    else if (eat('-')) x -= parseTerm(); // resta
-                    else return x;
-                }
-            }
-
-            //metodo responsable de divisiones y multilicaciones
-            double parseTerm(){
-                double x = parseFactor();
-                for (;;){
-                    if (eat('*')) x *= parseFactor(); // multiplicación
-                    else if (eat('/')) x /= parseFactor(); // división
-                    else return x;
-                }
-            }
-
-            //metodo de verificacion de signos.
-            double parseFactor() {
-                if (eat('+')) return parseFactor();
-                if (eat('-')) return -parseFactor();
-
-                double x;
-                int startPos = this.pos;
-                if ((ch >= '0' && ch <= '9') || ch == '.') {
-                    while ((ch >= '0' && ch <= '9') || ch == '.') nextChar();
-                    x = Double.parseDouble(expresion.substring(startPos, this.pos));
+    private void detectarTecla(String strTecla) {
+        switch (strTecla) {
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+            case "9":
+                if (operador.isEmpty()) {
+                    num1 = num1 * 10 + Double.parseDouble(strTecla);
+                    txtPantalla.setText(String.valueOf(num1));
                 } else {
-                    throw new RuntimeException("Caracter inesperado: " + (char)ch);
+                    num2 = num2 * 10 + Double.parseDouble(strTecla);
+                    txtPantalla.setText(String.valueOf(num2));
                 }
+                break;
+            case "+":
+            case "-":
+            case "*":
+            case "/":
+                if (!operador.isEmpty()) {
+                    realizarOperacion();
+                }
+                operador = strTecla;
+                txtPantalla.setText(operador);
+                break;
+            case "=":
+                realizarOperacion();
+                break;
+            case ".":
+                if (operador.isEmpty()) {
+                    if (!String.valueOf(num1).contains(".")) {
+                        num1 = Double.parseDouble(String.valueOf(num1) + ".");
+                        txtPantalla.setText(String.valueOf(num1));
+                    }
+                } else {
+                    if (!String.valueOf(num2).contains(".")) {
+                        num2 = Double.parseDouble(String.valueOf(num2) + ".");
+                        txtPantalla.setText(String.valueOf(num2));
+                    }
+                }
+                break;
+        }
+    }
 
-                return x;
+    private void realizarOperacion() {
+        if (!operador.isEmpty()) {
+            switch (operador) {
+                case "+":
+                    num1 = num1 + num2;
+                    break;
+                case "-":
+                    num1 = num1 - num2;
+                    break;
+                case "*":
+                    num1 = num1 * num2;
+                    break;
+                case "/":
+                    if (num2 != 0) {
+                        num1 = num1 / num2;
+                    } else {
+                        txtPantalla.setText("Error: División por cero");
+                        return;
+                    }
+                    break;
             }
-        }.parse();
+            txtPantalla.setText(String.valueOf(num1));
+            num2 = 0;
+            operador = "";
+        }
+    }
+
+    private void limpiarCalculadora() {
+        txtPantalla.clear();
+        num1 = 0;
+        num2 = 0;
+        operador = "";
     }
 }
