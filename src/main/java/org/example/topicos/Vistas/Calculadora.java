@@ -22,6 +22,7 @@ public class Calculadora extends Stage {
     private double num1 = 0;
     private double num2 = 0;
     private String operador = "";
+    private boolean nuevoNumero = true; // Variable para controlar la entrada de nuevos números
 
     private void CrearUI() {
         arrbtn = new Button[4][4];
@@ -30,10 +31,12 @@ public class Calculadora extends Stage {
         txtPantalla.setEditable(false);
         teclado = new GridPane();
         teclado.getStyleClass().add("grid-pane"); // Agregar la clase CSS al GridPane
-        //se agrega elboton de borrar('C').
+
+        // Se agrega el botón de borrar ('C').
         btnClear = new Button("C");
         btnClear.setPrefSize(50, 50);
         btnClear.setOnAction(actionEvent -> limpiarCalculadora());
+
         CrearTeclado();
         vbox = new VBox(txtPantalla, teclado);
         vbox.setAlignment(Pos.CENTER);
@@ -74,12 +77,16 @@ public class Calculadora extends Stage {
             case "7":
             case "8":
             case "9":
-                if (operador.isEmpty()) {
-                    num1 = num1 * 10 + Double.parseDouble(strTecla);
-                    txtPantalla.setText(String.valueOf(num1));
+                if (nuevoNumero) {
+                    txtPantalla.setText(strTecla);
+                    nuevoNumero = false;
                 } else {
-                    num2 = num2 * 10 + Double.parseDouble(strTecla);
-                    txtPantalla.setText(String.valueOf(num2));
+                    txtPantalla.appendText(strTecla);
+                }
+                if (operador.isEmpty()) {
+                    num1 = Double.parseDouble(txtPantalla.getText());
+                } else {
+                    num2 = Double.parseDouble(txtPantalla.getText());
                 }
                 break;
             case "+":
@@ -91,21 +98,23 @@ public class Calculadora extends Stage {
                 }
                 operador = strTecla;
                 txtPantalla.setText(operador);
+                nuevoNumero = true;
                 break;
             case "=":
                 realizarOperacion();
+                nuevoNumero = true;
                 break;
             case ".":
+                if (nuevoNumero) {
+                    txtPantalla.setText("0.");
+                    nuevoNumero = false;
+                } else if (!txtPantalla.getText().contains(".")) {
+                    txtPantalla.appendText(".");
+                }
                 if (operador.isEmpty()) {
-                    if (!String.valueOf(num1).contains(".")) {
-                        num1 = Double.parseDouble(String.valueOf(num1) + ".");
-                        txtPantalla.setText(String.valueOf(num1));
-                    }
+                    num1 = Double.parseDouble(txtPantalla.getText());
                 } else {
-                    if (!String.valueOf(num2).contains(".")) {
-                        num2 = Double.parseDouble(String.valueOf(num2) + ".");
-                        txtPantalla.setText(String.valueOf(num2));
-                    }
+                    num2 = Double.parseDouble(txtPantalla.getText());
                 }
                 break;
         }
@@ -128,6 +137,9 @@ public class Calculadora extends Stage {
                         num1 = num1 / num2;
                     } else {
                         txtPantalla.setText("Error: División por cero");
+                        num1 = 0;
+                        num2 = 0;
+                        operador = "";
                         return;
                     }
                     break;
@@ -143,5 +155,6 @@ public class Calculadora extends Stage {
         num1 = 0;
         num2 = 0;
         operador = "";
+        nuevoNumero = true; // Restablecer el estado de nuevo número
     }
 }
