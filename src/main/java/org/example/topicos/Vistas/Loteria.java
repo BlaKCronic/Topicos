@@ -60,8 +60,10 @@ public class Loteria extends Stage {
 
     private void CrearMazo() {
         Image imgMazo = new Image(getClass().getResource("/images/dorso.jpg").toString());
-        lbTimer = new Label();
+        lbTimer = new Label("00:00");
         imMazo = new ImageView(imgMazo);
+        imMazo.setFitHeight(450);
+        imMazo.setFitWidth(300);
         btnIni = new Button("Iniciar juego");
         vBoxMazo = new VBox(lbTimer, imMazo, btnIni);
     }
