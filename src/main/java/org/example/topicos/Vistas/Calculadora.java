@@ -18,6 +18,7 @@ public class Calculadora extends Stage {
     private Scene escena;
     private String[] strTeclas = {"7", "8", "9", "*", "4", "5", "6", "/", "1", "2", "3", "+", "0", ".", "=", "-"};
 
+    // Variables para almacenar los números y el operador
     private double num1 = 0;
     private double num2 = 0;
     private String operador = "";

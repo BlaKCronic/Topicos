@@ -1,5 +1,6 @@
 package org.example.topicos.Vistas;
 
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -32,7 +33,11 @@ public class Loteria extends Stage {
     private void CrearUI(){
         ImageView imAnt, imSig;
         imAnt = new ImageView(new Image(getClass().getResource("/images/izquierda.png").toString()));
+        imAnt.setFitWidth(50);
+        imAnt.setFitHeight(50);
         imSig = new ImageView(new Image(getClass().getResource("/images/derecha.png").toString()));
+        imSig.setFitWidth(50);
+        imSig.setFitHeight(50);
 
         gdTab = new GridPane();
         CrearTablilla();
@@ -45,8 +50,20 @@ public class Loteria extends Stage {
         hBoxButtons =new HBox(btnAnt, btnSig);
         vBoxTablilla = new VBox(gdTab, hBoxButtons);
 
-        hBoxMain = new HBox(vBoxTablilla);
-        escena = new Scene(hBoxMain, 1000, 800);
+        CrearMazo();
+
+        hBoxMain = new HBox(vBoxTablilla, vBoxMazo);
+        hBoxMain.setSpacing(80);
+        hBoxMain.setPadding(new Insets(30));
+        escena = new Scene(hBoxMain, 1000, 700);
+    }
+
+    private void CrearMazo() {
+        Image imgMazo = new Image(getClass().getResource("/images/dorso.jpg").toString());
+        lbTimer = new Label();
+        imMazo = new ImageView(imgMazo);
+        btnIni = new Button("Iniciar juego");
+        vBoxMazo = new VBox(lbTimer, imMazo, btnIni);
     }
 
     private void CrearTablilla() {
