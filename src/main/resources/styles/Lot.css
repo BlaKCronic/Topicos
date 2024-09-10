@@ -1,0 +1,60 @@
+/* Estilo para el contenedor principal (HBox) */
+.hbox-main {
+    -fx-spacing: 80;
+    -fx-padding: 30;
+}
+
+/* Estilo para los botones dentro del HBox de botones */
+.hbox-buttons {
+    -fx-spacing: 20;
+}
+
+/* Estilo para los botones (btnAnt, btnSig) */
+.button {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+
+/* Estilo específico para el botón "Iniciar juego" */
+.button-iniciar-juego {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+}
+
+/* Estilo para el VBox que contiene la tablilla y los botones de navegación */
+.vbox-tablilla {
+    -fx-spacing: 20;
+}
+
+/* Estilo para el VBox que contiene el mazo */
+.vbox-mazo {
+    -fx-spacing: 20;
+    -fx-alignment: center;
+}
+
+/* Estilo para el GridPane de la tablilla */
+.grid-pane-tablilla {
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+
+/* Estilo para los botones dentro de la tablilla */
+.grid-pane-tablilla .button {
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+}
+
+/* Estilo para el Label del temporizador */
+.label-timer {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+}
+
+/* Estilo para el ImageView del mazo */
+.image-view-mazo {
+    -fx-fit-height: 450;
+    -fx-fit-width: 300;
+}

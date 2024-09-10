@@ -56,6 +56,8 @@ public class Loteria extends Stage {
         hBoxMain.setSpacing(80);
         hBoxMain.setPadding(new Insets(30));
         escena = new Scene(hBoxMain, 1000, 700);
+        // Aplicar el CSS
+        escena.getStylesheets().add(getClass().getResource("/styles/Lot.css").toExternalForm());
     }
 
     private void CrearMazo() {
