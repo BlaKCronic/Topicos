@@ -5,5 +5,4 @@ module org.example.topicos {
     requires org.kordamp.bootstrapfx.core;
 
     opens org.example.topicos to javafx.fxml;
-    exports org.example.topicos;
-}
+    exports org.example.topicos;}
