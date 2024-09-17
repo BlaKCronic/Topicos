@@ -22,7 +22,7 @@ public class Loteria extends Stage {
     private GridPane gdTab;
     private ImageView imMazo;
     private Scene escena;
-    private String[] arrImages = {"barril.jpg","botella.jpg","catrin.jpg","chavorruco.jpg","concha.jpg","luchador.jpg","maceta.jpg","rosa.jpg","tacos.jpg","venado.jpg"};
+    private String[] arrImages = {"chat.jpg","temu.jpg","chems.jpg","rub.jpg","mondongo.jpg","mc.jpg","rizz.jpg","escalera.jpg","barril.jpg","botella.jpg","catrin.jpg","chavorruco.jpg","concha.jpg","luchador.jpg","maceta.jpg","rosa.jpg","tacos.jpg","venado.jpg"};
     private Button[][] arTab;
     private Panel pnlMain;
 
