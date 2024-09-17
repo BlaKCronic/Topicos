@@ -27,35 +27,56 @@ public class Loteria extends Stage {
     private GridPane gdTab;
     private ImageView imMazo;
     private Scene escena;
-    private String[] arrImages = {"chat.jpg","temu.jpg","chems.jpg","rub.jpg","mondongo.jpg","mc.jpg","rizz.jpg","escalera.jpg","barril.jpg","botella.jpg","catrin.jpg","chavorruco.jpg","concha.jpg","luchador.jpg","maceta.jpg","rosa.jpg","tacos.jpg","venado.jpg"};
+    private String[] arrImages = {
+            "chat.jpg", "temu.jpg", "chems.jpg", "rub.jpg", "mondongo.jpg",
+            "mc.jpg", "rizz.jpg", "escalera.jpg", "barril.jpg", "botella.jpg",
+            "catrin.jpg", "chavorruco.jpg", "concha.jpg", "luchador.jpg",
+            "maceta.jpg", "rosa.jpg", "tacos.jpg", "venado.jpg"
+    };
     private Button[][] arTab;
     private Panel pnlMain;
+    private int currentTab = 0;
 
-    public Loteria(){
+    public Loteria() {
         CrearUI();
         this.setTitle("Loteria");
         this.setScene(escena);
         this.show();
     }
 
-    private void CrearUI(){
-        ImageView imAnt, imSig;
-        imAnt = new ImageView(new Image(getClass().getResource("/images/izquierda.png").toString()));
+    private void CrearUI() {
+        ImageView imAnt = new ImageView(new Image(getClass().getResource("/images/izquierda.png").toString()));
         imAnt.setFitWidth(50);
         imAnt.setFitHeight(50);
-        imSig = new ImageView(new Image(getClass().getResource("/images/derecha.png").toString()));
+
+        ImageView imSig = new ImageView(new Image(getClass().getResource("/images/derecha.png").toString()));
         imSig.setFitWidth(50);
         imSig.setFitHeight(50);
 
-        gdTab = new GridPane();
-        CrearTablilla();
+        arTab = new Button[5][4 * 4]; // 5 tablillas, 4x4 buttons each
+        for (int k = 0; k < 5; k++) {
+            GridPane gdTabk = new GridPane();
+            CrearTablilla(gdTabk, k);
+            if (k == 0) {
+                gdTab = gdTabk;
+            }
+        }
 
         btnAnt = new Button();
         btnAnt.setGraphic(imAnt);
-        btnSig =new Button();
-        btnSig.setGraphic(imSig);
+        btnAnt.setOnAction(e -> {
+            currentTab = (currentTab - 1 + 5) % 5;
+            actualizarTab();
+        });
 
-        hBoxButtons =new HBox(btnAnt, btnSig);
+        btnSig = new Button();
+        btnSig.setGraphic(imSig);
+        btnSig.setOnAction(e -> {
+            currentTab = (currentTab + 1) % 5;
+            actualizarTab();
+        });
+
+        hBoxButtons = new HBox(btnAnt, btnSig);
         vBoxTablilla = new VBox(gdTab, hBoxButtons);
 
         CrearMazo();
@@ -78,24 +99,33 @@ public class Loteria extends Stage {
         imMazo.setFitHeight(450);
         imMazo.setFitWidth(300);
         btnIni = new Button("Iniciar juego");
-        btnIni.getStyleClass().setAll("btn-sm","btn-danger");
+        btnIni.getStyleClass().addAll("btn-sm", "btn-danger");
         vBoxMazo = new VBox(lbTimer, imMazo, btnIni);
     }
 
-    private void CrearTablilla() {
-        arTab = new Button[4][4];
+    private void CrearTablilla(GridPane gdTab, int k) {
         List<String> imageList = new ArrayList<>(Arrays.asList(arrImages));
         Collections.shuffle(imageList);
-        for (int i = 0; i < 4 ; i++) {
-            for (int j = 0; j < 4 ; j++) {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
                 String imagePath = "/images/" + imageList.get(i * 4 + j);
                 Image img = new Image(getClass().getResource(imagePath).toString());
                 ImageView imv = new ImageView(img);
                 imv.setFitWidth(100);
                 imv.setFitHeight(150);
-                arTab[i][j] = new Button();
-                arTab[i][j].setGraphic(imv);
-                gdTab.add(arTab[i][j],i,j);
+                Button btn = new Button();
+                btn.setGraphic(imv);
+                arTab[k][i * 4 + j] = btn;
+                gdTab.add(btn, i, j);
+            }
+        }
+    }
+
+    private void actualizarTab() {
+        gdTab.getChildren().clear();
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                gdTab.add(arTab[currentTab][i * 4 + j], i, j);
             }
         }
     }
