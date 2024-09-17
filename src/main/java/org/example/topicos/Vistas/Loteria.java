@@ -13,6 +13,11 @@ import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import org.kordamp.bootstrapfx.scene.layout.Panel;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Loteria extends Stage {
 
     private HBox hBoxMain, hBoxButtons;
@@ -79,19 +84,19 @@ public class Loteria extends Stage {
 
     private void CrearTablilla() {
         arTab = new Button[4][4];
-        Image img;
-        ImageView imv;
+        List<String> imageList = new ArrayList<>(Arrays.asList(arrImages));
+        Collections.shuffle(imageList);
         for (int i = 0; i < 4 ; i++) {
             for (int j = 0; j < 4 ; j++) {
-                img = new Image(getClass().getResource("/images/barril.jpg").toString());
-                imv = new ImageView(img);
+                String imagePath = "/images/" + imageList.get(i * 4 + j);
+                Image img = new Image(getClass().getResource(imagePath).toString());
+                ImageView imv = new ImageView(img);
                 imv.setFitWidth(100);
                 imv.setFitHeight(150);
                 arTab[i][j] = new Button();
                 arTab[i][j].setGraphic(imv);
                 gdTab.add(arTab[i][j],i,j);
             }
-
         }
     }
 }
