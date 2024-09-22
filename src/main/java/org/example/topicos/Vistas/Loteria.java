@@ -1,13 +1,16 @@
 package org.example.topicos.Vistas;
 
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
@@ -100,7 +103,80 @@ public class Loteria extends Stage {
         imMazo.setFitWidth(300);
         btnIni = new Button("Iniciar juego");
         btnIni.getStyleClass().addAll("btn-sm", "btn-danger");
+        btnIni.setOnAction(e -> iniciarJuego());
+
         vBoxMazo = new VBox(lbTimer, imMazo, btnIni);
+    }
+
+    private void iniciarJuego() {
+        currentTab = 0;
+        actualizarTab();
+
+        List<String> cartas = new ArrayList<>(Arrays.asList(arrImages));
+        Collections.shuffle(cartas);
+
+        new Thread(() -> {
+            for (String carta : cartas) {
+                mostrarCarta(carta);
+                try {
+                    Thread.sleep(5000); // Esperar 5 segundos
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            verificarGanador();
+        }).start();
+    }
+
+    private void mostrarCarta(String carta) {
+        Image imgCarta = new Image(getClass().getResource("/images/" + carta).toString());
+        imMazo.setImage(imgCarta);
+
+        for (int i = 5; i > 0; i--) {
+            final int seconds = i;
+            Platform.runLater(() -> lbTimer.setText(String.format("%02d:00", seconds)));
+            try {
+                Thread.sleep(1000); // Esperar 1 segundo
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        permitirSeleccionCarta(carta);
+    }
+
+    private void permitirSeleccionCarta(String carta) {
+        for (Button btn : arTab[currentTab]) {
+            btn.setOnAction(e -> {
+                Image imgSelected = new Image(getClass().getResource("/images/" + carta).toString());
+                if (btn.getGraphic() instanceof StackPane stackPane) {
+                    ImageView imv = (ImageView) stackPane.getChildren().get(0);
+                    if (imv.getImage().getUrl().equals(imgSelected.getUrl())) {
+                        Label xLabel = (Label) stackPane.getChildren().get(1);
+                        xLabel.setVisible(true); // Hacer visible la "X"
+                        btn.setDisable(true); // Desactivar el botón una vez marcado
+                    }
+                }
+            });
+        }
+    }
+
+    private void verificarGanador() {
+        boolean todasMarcadas = Arrays.stream(arTab[currentTab])
+                .allMatch(btn -> {
+                    if (btn.getGraphic() instanceof StackPane stackPane) {
+                        Label xLabel = (Label) stackPane.getChildren().get(1);
+                        return xLabel.isVisible(); // Verificar si la "X" es visible
+                    }
+                    return false; // Si no hay gráfico, no está marcado
+                });
+
+        Platform.runLater(() -> {
+            String mensaje = todasMarcadas ? "¡Ganaste!" : "¡Perdiste!";
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, mensaje);
+            alert.setTitle("Resultado");
+            alert.showAndWait();
+        });
     }
 
     private void CrearTablilla(GridPane gdTab, int k) {
@@ -113,8 +189,14 @@ public class Loteria extends Stage {
                 ImageView imv = new ImageView(img);
                 imv.setFitWidth(100);
                 imv.setFitHeight(150);
+
+                Label xLabel = new Label("X");
+                xLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;"); // Estilo de la "X"
+                xLabel.setVisible(false); // Ocultar inicialmente
+
+                StackPane stackPane = new StackPane(imv, xLabel);
                 Button btn = new Button();
-                btn.setGraphic(imv);
+                btn.setGraphic(stackPane);
                 arTab[k][i * 4 + j] = btn;
                 gdTab.add(btn, i, j);
             }
