@@ -25,7 +25,7 @@ public class Loteria extends Stage {
 
     private HBox hBoxMain, hBoxButtons;
     private VBox vBoxTablilla, vBoxMazo;
-    private Button btnAnt, btnSig, btnIni;
+    private Button btnAnt, btnSig, btnIni, btnFin;
     private Label lbTimer;
     private GridPane gdTab;
     private ImageView imMazo;
@@ -39,6 +39,7 @@ public class Loteria extends Stage {
     private Button[][] arTab;
     private Panel pnlMain;
     private int currentTab = 0;
+    private volatile boolean juegoActivo = false;
 
     public Loteria() {
         CrearUI();
@@ -79,7 +80,14 @@ public class Loteria extends Stage {
             actualizarTab();
         });
 
-        hBoxButtons = new HBox(btnAnt, btnSig);
+        btnFin = new Button("Finalizar juego");
+        btnFin.setOnAction(e -> reiniciarJuego());
+
+        btnIni = new Button("Iniciar juego");
+        btnIni.getStyleClass().addAll("btn-sm", "btn-danger");
+        btnIni.setOnAction(e -> iniciarJuego());
+
+        hBoxButtons = new HBox(btnAnt, btnSig, btnFin, btnIni);
         vBoxTablilla = new VBox(gdTab, hBoxButtons);
 
         CrearMazo();
@@ -101,15 +109,12 @@ public class Loteria extends Stage {
         imMazo = new ImageView(imgMazo);
         imMazo.setFitHeight(450);
         imMazo.setFitWidth(300);
-        btnIni = new Button("Iniciar juego");
-        btnIni.getStyleClass().addAll("btn-sm", "btn-danger");
-        btnIni.setOnAction(e -> iniciarJuego());
-
-        vBoxMazo = new VBox(lbTimer, imMazo, btnIni);
+        vBoxMazo = new VBox(lbTimer, imMazo);
     }
 
     private void iniciarJuego() {
         currentTab = 0;
+        juegoActivo = true;
         actualizarTab();
 
         List<String> cartas = new ArrayList<>(Arrays.asList(arrImages));
@@ -117,6 +122,8 @@ public class Loteria extends Stage {
 
         new Thread(() -> {
             for (String carta : cartas) {
+                if (!juegoActivo) return; // Si el juego no está activo, salir
+
                 mostrarCarta(carta);
                 try {
                     Thread.sleep(5000); // Esperar 5 segundos
@@ -162,6 +169,8 @@ public class Loteria extends Stage {
     }
 
     private void verificarGanador() {
+        if (!juegoActivo) return;
+
         boolean todasMarcadas = Arrays.stream(arTab[currentTab])
                 .allMatch(btn -> {
                     if (btn.getGraphic() instanceof StackPane stackPane) {
@@ -177,6 +186,22 @@ public class Loteria extends Stage {
             alert.setTitle("Resultado");
             alert.showAndWait();
         });
+    }
+
+    private void reiniciarJuego() {
+        juegoActivo = false; // Terminar el juego actual
+        // Reiniciar el estado de los botones y la interfaz
+        for (int k = 0; k < 5; k++) {
+            for (Button btn : arTab[k]) {
+                btn.setDisable(false); // Habilitar todos los botones
+                if (btn.getGraphic() instanceof StackPane stackPane) {
+                    Label xLabel = (Label) stackPane.getChildren().get(1);
+                    xLabel.setVisible(false); // Ocultar la "X"
+                }
+            }
+        }
+        lbTimer.setText("00:00"); // Reiniciar el timer
+        imMazo.setImage(new Image(getClass().getResource("/images/dorso.jpg").toString())); // Reiniciar el mazo
     }
 
     private void CrearTablilla(GridPane gdTab, int k) {
