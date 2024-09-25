@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.topicos.Vistas.Calculadora;
 import org.example.topicos.Vistas.Loteria;
+import org.example.topicos.models.Conexion;
 
 import java.io.IOException;
 
@@ -48,9 +49,11 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.setMaximized(true);
         stage.show();
+
+        Conexion.crearConexion();
     }
 
-    public static void main(String[] args) {
+    public static void main(String... args) {
         launch();
     }
 }

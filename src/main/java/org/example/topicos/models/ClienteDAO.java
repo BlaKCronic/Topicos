@@ -1,5 +1,7 @@
 package org.example.topicos.models;
 
+import java.sql.Statement;
+
 public class ClienteDAO {
     private int idCliente;
     private String nombreCte;
@@ -36,5 +38,43 @@ public class ClienteDAO {
 
     public void setEmailCte(String emailCte) {
         this.emailCte = emailCte;
+    }
+
+    public void INSERT(){
+        String query = "INSERT INTO tblCliente(nombreCte,telCte,emailCte)" + " VALUES('"+this.nombreCte+"','"+this.telCte+"','"+this.emailCte+"')";
+
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            stmt.executeUpdate(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void UPDATE(){
+
+        String query = "UPDATE tblCliente SET nombreCte = '"+this.nombreCte+"'," + "telCte = '"+this.telCte+"', emailCte = '"+this.emailCte+"' WHERE idCliente = "+this.idCliente;
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            stmt.executeUpdate(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void DELETE(){
+
+        String query = "";
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            stmt.executeUpdate(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void SELECTALL(){
+
     }
 }
