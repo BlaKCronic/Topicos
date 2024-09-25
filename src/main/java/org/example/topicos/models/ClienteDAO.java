@@ -65,7 +65,7 @@ public class ClienteDAO {
 
     public void DELETE(){
 
-        String query = "";
+        String query = "DELETE FROM tblCliente WHERE idCliente = " + this.idCliente;
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
