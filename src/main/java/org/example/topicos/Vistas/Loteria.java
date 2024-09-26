@@ -166,25 +166,15 @@ public class Loteria extends Stage {
         timeline.setCycleCount(5); // 5 segundos
         timeline.play();
 
-        // Este Sleep se puede eliminar, ya que el temporizador se maneja con el Timeline
-        //try {
-        //    Thread.sleep(5000); // Esperar 5 segundos
-        //} catch (InterruptedException e) {
-        //    e.printStackTrace();
-        //}
     }
 
     private void verificarGanador() {
         if (!juegoActivo) return;
 
-        boolean todasMarcadas = Arrays.stream(arTab[currentTab])
-                .allMatch(btn -> {
-                    if (btn.getGraphic() instanceof StackPane stackPane) {
-                        Label xLabel = (Label) stackPane.getChildren().get(1);
-                        return xLabel.isVisible(); // Verificar si la "X" es visible
-                    }
-                    return false; // Si no hay gráfico, no está marcado
-                });
+        boolean todasMarcadas = Arrays.stream(arTab[currentTab]).allMatch(btn -> btn.isDisabled());
+
+        // Verifica si todos los botones en la tablilla actual están deshabilitados
+        // Si algún botón está habilitado, no se ha ganado
 
         Platform.runLater(() -> {
             String mensaje = todasMarcadas ? "¡Ganaste!" : "¡Perdiste!";
@@ -193,6 +183,8 @@ public class Loteria extends Stage {
             alert.showAndWait();
         });
     }
+
+
 
     private void reiniciarJuego() {
         juegoActivo = false; // Terminar el juego actual
