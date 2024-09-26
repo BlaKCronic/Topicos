@@ -122,10 +122,9 @@ public class Loteria extends Stage {
             return;
         }
 
-        currentTab = 0;
         juegoActivo = true;
-        actualizarTab();
 
+        // No reiniciar currentTab, sino usar el actual
         List<String> cartas = new ArrayList<>(Arrays.asList(arrImages));
         Collections.shuffle(cartas);
 
@@ -151,19 +150,8 @@ public class Loteria extends Stage {
         Image imgCarta = new Image(getClass().getResource("/images/" + carta).toString());
         imMazo.setImage(imgCarta);
 
-        for (Button btn : arTab[currentTab]) {
-            if (btn.getGraphic() instanceof StackPane stackPane) {
-                ImageView imv = (ImageView) stackPane.getChildren().get(0);
-                if (imv.getImage().getUrl().equals(imgCarta.getUrl())) {
-                    btn.setDisable(false);
-                } else {
-                    btn.setDisable(true);
-                }
-            }
-        }
-
         try {
-            Thread.sleep(5000);
+            Thread.sleep(5000); // Esperar 5 segundos
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -195,12 +183,19 @@ public class Loteria extends Stage {
         for (int k = 0; k < 5; k++) {
             for (Button btn : arTab[k]) {
                 btn.setDisable(false); // Habilitar todos los botones
+            }
+        }
+
+        // Ocultar "X" en todas las cartas (si estaban visibles)
+        for (int k = 0; k < 5; k++) {
+            for (Button btn : arTab[k]) {
                 if (btn.getGraphic() instanceof StackPane stackPane) {
                     Label xLabel = (Label) stackPane.getChildren().get(1);
                     xLabel.setVisible(false); // Ocultar la "X"
                 }
             }
         }
+
         lbTimer.setText("00:00"); // Reiniciar el timer
         imMazo.setImage(new Image(getClass().getResource("/images/dorso.jpg").toString())); // Reiniciar el mazo
 
@@ -219,73 +214,22 @@ public class Loteria extends Stage {
                 imv.setFitWidth(100);
                 imv.setFitHeight(150);
 
-                Button btn = getButton1(imv);
+                StackPane stackPane = new StackPane(imv);
+                Button btn = new Button();
+                btn.setGraphic(stackPane);
+                btn.setOnAction(e -> {
+                    if (btn.getGraphic() instanceof StackPane stackPane1) {
+                        ImageView imv1 = (ImageView) stackPane1.getChildren().get(0);
+                        // Solo deshabilitar el botón si coincide con la carta mostrada
+                        if (imv1.getImage().getUrl().equals(imMazo.getImage().getUrl())) {
+                            btn.setDisable(true); // Deshabilitar el botón
+                        }
+                    }
+                });
                 arTab[k][i * 4 + j] = btn;
                 gdTab.add(btn, i, j);
             }
         }
-    }
-
-    private Button getButton1(ImageView imv) {
-        Label xLabel = new Label("X");
-        xLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;");
-        xLabel.setVisible(false);
-
-        StackPane stackPane = new StackPane(imv, xLabel);
-        Button btn = new Button();
-        btn.setGraphic(stackPane);
-        btn.setOnAction(e -> {
-            if (btn.getGraphic() instanceof StackPane stackPane1) {
-                ImageView imv1 = (ImageView) stackPane1.getChildren().get(0);
-                Label xLabel1 = (Label) stackPane1.getChildren().get(1);
-                if (imv1.getImage().getUrl().equals(imMazo.getImage().getUrl())) {
-                    xLabel1.setVisible(true);
-                    btn.setDisable(true);
-                }
-            }
-        });
-        return btn;
-    }
-
-    private Button getBtn(ImageView imv) {
-        Label xLabel = new Label("X");
-        xLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;");
-        xLabel.setVisible(false);
-
-        StackPane stackPane = new StackPane(imv, xLabel);
-        Button btn = new Button();
-        btn.setGraphic(stackPane);
-        btn.setOnAction(e -> {
-            if (btn.getGraphic() instanceof StackPane stackPane1) {
-                ImageView imv1 = (ImageView) stackPane1.getChildren().get(0);
-                Label xLabel1 = (Label) stackPane1.getChildren().get(1);
-                if (imv1.getImage().getUrl().equals(imMazo.getImage().getUrl())) {
-                    xLabel1.setVisible(true);
-                    btn.setDisable(true);
-                }
-            }
-        });
-        return btn;
-    }
-
-    private static Button getButton(ImageView imv) {
-        Label xLabel = new Label("X");
-        xLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;");
-        xLabel.setVisible(false);
-
-        StackPane stackPane = new StackPane(imv, xLabel);
-        Button btn = new Button();
-        btn.setGraphic(stackPane);
-        btn.setDisable(true);
-        btn.setOnAction(e -> {
-            if (btn.getGraphic() instanceof StackPane stackPane1) {
-                ImageView imv1 = (ImageView) stackPane1.getChildren().get(0);
-                Label xLabel1 = (Label) stackPane1.getChildren().get(1);
-                xLabel1.setVisible(true);
-                btn.setDisable(true);
-            }
-        });
-        return btn;
     }
 
     private void actualizarTab() {
