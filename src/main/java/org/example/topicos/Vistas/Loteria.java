@@ -133,38 +133,34 @@ public class Loteria extends Stage {
             }
             verificarGanador();
         }).start();
+
+        btnSig.setDisable(true);
+        btnAnt.setDisable(true);
     }
 
     private void mostrarCarta(String carta) {
         Image imgCarta = new Image(getClass().getResource("/images/" + carta).toString());
         imMazo.setImage(imgCarta);
 
-        for (int i = 5; i > 0; i--) {
-            final int seconds = i;
-            Platform.runLater(() -> lbTimer.setText(String.format("%02d:00", seconds)));
-            try {
-                Thread.sleep(1000); // Esperar 1 segundo
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        for (Button btn : arTab[currentTab]) {
+            if (btn.getGraphic() instanceof StackPane stackPane) {
+                ImageView imv = (ImageView) stackPane.getChildren().get(0);
+                if (imv.getImage().getUrl().equals(imgCarta.getUrl())) {
+                    btn.setDisable(false);
+                } else {
+                    btn.setDisable(true);
+                }
             }
         }
 
-        permitirSeleccionCarta(carta);
-    }
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
-    private void permitirSeleccionCarta(String carta) {
         for (Button btn : arTab[currentTab]) {
-            btn.setOnAction(e -> {
-                Image imgSelected = new Image(getClass().getResource("/images/" + carta).toString());
-                if (btn.getGraphic() instanceof StackPane stackPane) {
-                    ImageView imv = (ImageView) stackPane.getChildren().get(0);
-                    if (imv.getImage().getUrl().equals(imgSelected.getUrl())) {
-                        Label xLabel = (Label) stackPane.getChildren().get(1);
-                        xLabel.setVisible(true); // Hacer visible la "X"
-                        btn.setDisable(true); // Desactivar el botón una vez marcado
-                    }
-                }
-            });
+            btn.setDisable(true);
         }
     }
 
@@ -202,6 +198,9 @@ public class Loteria extends Stage {
         }
         lbTimer.setText("00:00"); // Reiniciar el timer
         imMazo.setImage(new Image(getClass().getResource("/images/dorso.jpg").toString())); // Reiniciar el mazo
+
+        btnAnt.setDisable(false);
+        btnSig.setDisable(false);
     }
 
     private void CrearTablilla(GridPane gdTab, int k) {
@@ -215,17 +214,31 @@ public class Loteria extends Stage {
                 imv.setFitWidth(100);
                 imv.setFitHeight(150);
 
-                Label xLabel = new Label("X");
-                xLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;"); // Estilo de la "X"
-                xLabel.setVisible(false); // Ocultar inicialmente
-
-                StackPane stackPane = new StackPane(imv, xLabel);
-                Button btn = new Button();
-                btn.setGraphic(stackPane);
+                Button btn = getButton(imv);
                 arTab[k][i * 4 + j] = btn;
                 gdTab.add(btn, i, j);
             }
         }
+    }
+
+    private static Button getButton(ImageView imv) {
+        Label xLabel = new Label("X");
+        xLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;");
+        xLabel.setVisible(false);
+
+        StackPane stackPane = new StackPane(imv, xLabel);
+        Button btn = new Button();
+        btn.setGraphic(stackPane);
+        btn.setDisable(true);
+        btn.setOnAction(e -> {
+            if (btn.getGraphic() instanceof StackPane stackPane1) {
+                ImageView imv1 = (ImageView) stackPane1.getChildren().get(0);
+                Label xLabel1 = (Label) stackPane1.getChildren().get(1);
+                xLabel1.setVisible(true);
+                btn.setDisable(true);
+            }
+        });
+        return btn;
     }
 
     private void actualizarTab() {
