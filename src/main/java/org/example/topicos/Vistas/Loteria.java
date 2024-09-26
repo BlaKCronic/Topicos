@@ -113,6 +113,15 @@ public class Loteria extends Stage {
     }
 
     private void iniciarJuego() {
+        if (juegoActivo) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Juego ya iniciado");
+            alert.setHeaderText("El juego ya está en progreso");
+            alert.setContentText("No puedes iniciar un nuevo juego mientras otro está en progreso.");
+            alert.showAndWait();
+            return;
+        }
+
         currentTab = 0;
         juegoActivo = true;
         actualizarTab();
@@ -134,8 +143,8 @@ public class Loteria extends Stage {
             verificarGanador();
         }).start();
 
-        btnSig.setDisable(true);
         btnAnt.setDisable(true);
+        btnSig.setDisable(true);
     }
 
     private void mostrarCarta(String carta) {
@@ -157,10 +166,6 @@ public class Loteria extends Stage {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-
-        for (Button btn : arTab[currentTab]) {
-            btn.setDisable(true);
         }
     }
 
@@ -214,11 +219,53 @@ public class Loteria extends Stage {
                 imv.setFitWidth(100);
                 imv.setFitHeight(150);
 
-                Button btn = getButton(imv);
+                Button btn = getButton1(imv);
                 arTab[k][i * 4 + j] = btn;
                 gdTab.add(btn, i, j);
             }
         }
+    }
+
+    private Button getButton1(ImageView imv) {
+        Label xLabel = new Label("X");
+        xLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;");
+        xLabel.setVisible(false);
+
+        StackPane stackPane = new StackPane(imv, xLabel);
+        Button btn = new Button();
+        btn.setGraphic(stackPane);
+        btn.setOnAction(e -> {
+            if (btn.getGraphic() instanceof StackPane stackPane1) {
+                ImageView imv1 = (ImageView) stackPane1.getChildren().get(0);
+                Label xLabel1 = (Label) stackPane1.getChildren().get(1);
+                if (imv1.getImage().getUrl().equals(imMazo.getImage().getUrl())) {
+                    xLabel1.setVisible(true);
+                    btn.setDisable(true);
+                }
+            }
+        });
+        return btn;
+    }
+
+    private Button getBtn(ImageView imv) {
+        Label xLabel = new Label("X");
+        xLabel.setStyle("-fx-text-fill: red; -fx-font-size: 30;");
+        xLabel.setVisible(false);
+
+        StackPane stackPane = new StackPane(imv, xLabel);
+        Button btn = new Button();
+        btn.setGraphic(stackPane);
+        btn.setOnAction(e -> {
+            if (btn.getGraphic() instanceof StackPane stackPane1) {
+                ImageView imv1 = (ImageView) stackPane1.getChildren().get(0);
+                Label xLabel1 = (Label) stackPane1.getChildren().get(1);
+                if (imv1.getImage().getUrl().equals(imMazo.getImage().getUrl())) {
+                    xLabel1.setVisible(true);
+                    btn.setDisable(true);
+                }
+            }
+        });
+        return btn;
     }
 
     private static Button getButton(ImageView imv) {
