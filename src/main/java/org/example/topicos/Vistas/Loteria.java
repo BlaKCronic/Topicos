@@ -1,5 +1,8 @@
 package org.example.topicos.Vistas;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -124,7 +127,6 @@ public class Loteria extends Stage {
 
         juegoActivo = true;
 
-        // No reiniciar currentTab, sino usar el actual
         List<String> cartas = new ArrayList<>(Arrays.asList(arrImages));
         Collections.shuffle(cartas);
 
@@ -150,11 +152,26 @@ public class Loteria extends Stage {
         Image imgCarta = new Image(getClass().getResource("/images/" + carta).toString());
         imMazo.setImage(imgCarta);
 
-        try {
-            Thread.sleep(5000); // Esperar 5 segundos
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // Iniciar el temporizador
+        final int[] tiempoRestante = {5}; // 5 segundos
+        lbTimer.setText("05:00");
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            tiempoRestante[0]--;
+            lbTimer.setText(String.format("%02d:00", tiempoRestante[0]));
+            if (tiempoRestante[0] <= 0) {
+                lbTimer.setText("00:00"); // Resetea el timer
+            }
+        }));
+        timeline.setCycleCount(5); // 5 segundos
+        timeline.play();
+
+        // Este Sleep se puede eliminar, ya que el temporizador se maneja con el Timeline
+        //try {
+        //    Thread.sleep(5000); // Esperar 5 segundos
+        //} catch (InterruptedException e) {
+        //    e.printStackTrace();
+        //}
     }
 
     private void verificarGanador() {
