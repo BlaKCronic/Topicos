@@ -32,7 +32,10 @@ public class HelloApplication extends Application {
         mitSpotify.setOnAction(actionEvent -> new ListaClientes());
         menCompetencia1 = new Menu("Competencia 1");
         menCompetencia1.getItems().addAll(mitCalc, mitloteria, mitSpotify);
-        menBar = new MenuBar(menCompetencia1);
+        menuCompetencia2 = new Menu("Competencia 2");
+        menuCompetencia2.getItems().addAll();
+        menBar = new MenuBar(menCompetencia1, menuCompetencia2);
+
         Label titleLabel = new Label("Mi Aplicación");
         titleLabel.setId("title-label");
 
