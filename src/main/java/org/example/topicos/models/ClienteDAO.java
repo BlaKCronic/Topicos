@@ -1,5 +1,9 @@
 package org.example.topicos.models;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class ClienteDAO {
@@ -74,7 +78,24 @@ public class ClienteDAO {
         }
     }
 
-    public void SELECTALL(){
-
+    public ObservableList<ClienteDAO> SELECTALL(){
+        ClienteDAO objCte;
+        String query = "SELECT * FROM tblCliente";
+        ObservableList<ClienteDAO> listaC = FXCollections.observableArrayList();
+        try{
+            Statement stmt = Conexion.connection.createStatement();
+            ResultSet res = stmt.executeQuery(query);
+            while(res.next()){
+                objCte = new ClienteDAO();
+                objCte.idCliente = res.getInt(0);
+                objCte.nombreCte = res.getString(1);
+                objCte.telCte = res.getString(2);
+                objCte.emailCte = res.getString(3);
+                listaC.add(objCte);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listaC;
     }
 }
