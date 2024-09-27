@@ -22,6 +22,9 @@ public class ListaClientes extends Stage {
     }
 
     private void CrerUI() {
-
+        tlbMenu = new ToolBar();
+        tbvClientes = new TableView<>();
+        vBox = new VBox(tlbMenu, tbvClientes);
+        escena = new Scene(vBox, 600, 250);
     }
 }
