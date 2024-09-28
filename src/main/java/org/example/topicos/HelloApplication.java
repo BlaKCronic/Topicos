@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import org.example.topicos.Vistas.Calculadora;
 import org.example.topicos.Vistas.ListaClientes;
 import org.example.topicos.Vistas.Loteria;
+import org.example.topicos.Vistas.MinesWeeper;
 import org.example.topicos.models.Conexion;
 
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class HelloApplication extends Application {
     private BorderPane bdpPrincipal;
     private MenuBar menBar;
     private Menu menCompetencia1, menuCompetencia2, menSalir;
-    private MenuItem mitCalc, mitloteria, mitSpotify;
+    private MenuItem mitCalc, mitloteria, mitSpotify, mitMines;
 
     public void CrearUI() {
         mitCalc = new MenuItem("Calculadora");
@@ -30,6 +31,8 @@ public class HelloApplication extends Application {
         mitloteria.setOnAction(actionEvent -> new Loteria());
         mitSpotify = new MenuItem("Spotify");
         mitSpotify.setOnAction(actionEvent -> new ListaClientes());
+        mitMines = new MenuItem("Busca minas");
+        mitMines.setOnAction(actionEvent -> new MinesWeeper());
         menCompetencia1 = new Menu("Competencia 1");
         menCompetencia1.getItems().addAll(mitCalc, mitloteria, mitSpotify);
         menuCompetencia2 = new Menu("Competencia 2");
