@@ -34,7 +34,7 @@ public class HelloApplication extends Application {
         mitMines = new MenuItem("Busca minas");
         mitMines.setOnAction(actionEvent -> new MinesWeeper());
         menCompetencia1 = new Menu("Competencia 1");
-        menCompetencia1.getItems().addAll(mitCalc, mitloteria, mitSpotify);
+        menCompetencia1.getItems().addAll(mitCalc, mitloteria, mitSpotify, mitMines);
         menuCompetencia2 = new Menu("Competencia 2");
         menuCompetencia2.getItems().addAll();
         menBar = new MenuBar(menCompetencia1, menuCompetencia2);
