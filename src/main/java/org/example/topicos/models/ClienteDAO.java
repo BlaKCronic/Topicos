@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ClienteDAO {
@@ -44,21 +45,23 @@ public class ClienteDAO {
         this.emailCte = emailCte;
     }
 
-    public void INSERT(){
-        String query = "INSERT INTO tblCliente(nombreCte,telCte,emailCte)" + " VALUES('"+this.nombreCte+"','"+this.telCte+"','"+this.emailCte+"')";
-
+    public int Insert(){
+        int rowCount;
+        String query = "Insert into cliente(cliente,telefono,correo)" + " values('"+this.nombreCte+"', '"+this.emailCte+"', '"+this.telCte+"')";
         try {
             Statement stmt = Conexion.connection.createStatement();
-            stmt.executeUpdate(query);
-        }catch (Exception e){
+            rowCount = stmt.executeUpdate(query);
+        }catch (SQLException e){
+            rowCount = 0;
             e.printStackTrace();
-        }
 
+        }
+        return rowCount;
     }
 
     public void UPDATE(){
 
-        String query = "UPDATE tblCliente SET nombreCte = '"+this.nombreCte+"'," + "telCte = '"+this.telCte+"', emailCte = '"+this.emailCte+"' WHERE idCliente = "+this.idCliente;
+        String query = "UPDATE tblCliente SET nombreCte = '"+this.nombreCte+"'," + "telCte = '"+this.emailCte+"', emailCte = '"+this.telCte+"' WHERE idCliente = "+this.idCliente;
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -87,10 +90,10 @@ public class ClienteDAO {
             ResultSet res = stmt.executeQuery(query);
             while(res.next()){
                 objCte = new ClienteDAO();
-                objCte.idCliente = res.getInt(0);
-                objCte.nombreCte = res.getString(1);
-                objCte.telCte = res.getString(2);
-                objCte.emailCte = res.getString(3);
+                objCte.idCliente = res.getInt(1);
+                objCte.nombreCte = res.getString(2);
+                objCte.telCte = res.getString(3);
+                objCte.emailCte = res.getString(4);
                 listaC.add(objCte);
             }
         } catch (Exception e) {
