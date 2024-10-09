@@ -54,7 +54,7 @@ public class ListaClientes extends Stage {
         tbcEditar.setCellFactory(new Callback<TableColumn<ClienteDAO, String>, TableCell<ClienteDAO, String>>() {
             @Override
             public TableCell<ClienteDAO, String> call(TableColumn<ClienteDAO, String> clienteDAOStringTableColumn) {
-                return new ButtonCell();
+                return new ButtonCell("Editar");
             }
         });
 
@@ -62,7 +62,7 @@ public class ListaClientes extends Stage {
         tbcEliminar.setCellFactory(new Callback<TableColumn<ClienteDAO, String>, TableCell<ClienteDAO, String>>() {
             @Override
             public TableCell<ClienteDAO, String> call(TableColumn<ClienteDAO, String> clienteDAOStringTableColumn) {
-                return new ButtonCell();
+                return new ButtonCell("Eliminar");
             }
         });
 

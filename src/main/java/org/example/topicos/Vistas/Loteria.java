@@ -153,8 +153,8 @@ public class Loteria extends Stage {
         imMazo.setImage(imgCarta);
 
         // Iniciar el temporizador
-        final int[] tiempoRestante = {5}; // 5 segundos
-        lbTimer.setText("05:00");
+        final int[] tiempoRestante = {2}; // 5 segundos
+        lbTimer.setText("02:00");
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             tiempoRestante[0]--;
@@ -163,7 +163,7 @@ public class Loteria extends Stage {
                 lbTimer.setText("00:00"); // Resetea el timer
             }
         }));
-        timeline.setCycleCount(5); // 5 segundos
+        timeline.setCycleCount(2); // 5 segundos
         timeline.play();
 
     }

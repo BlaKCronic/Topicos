@@ -8,8 +8,8 @@ public class ButtonCell extends TableCell<ClienteDAO, String> {
 
     Button btnCelda;
 
-    public ButtonCell(){
-        btnCelda = new Button("Editar");
+    public ButtonCell(String str){
+        btnCelda = new Button(str);
     }
 
     @Override
