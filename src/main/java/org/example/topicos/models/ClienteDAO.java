@@ -47,7 +47,7 @@ public class ClienteDAO {
 
     public int Insert(){
         int rowCount;
-        String query = "Insert into cliente(cliente,telefono,correo)" + " values('"+this.nombreCte+"', '"+this.emailCte+"', '"+this.telCte+"')";
+        String query = "INSERT INTO tblcliente(nombreCte,emailCte,telCte)" + " values('"+this.nombreCte+"', '"+this.emailCte+"', '"+this.telCte+"')";
         try {
             Statement stmt = Conexion.connection.createStatement();
             rowCount = stmt.executeUpdate(query);
@@ -61,7 +61,7 @@ public class ClienteDAO {
 
     public void UPDATE(){
 
-        String query = "UPDATE tblCliente SET nombreCte = '"+this.nombreCte+"'," + "telCte = '"+this.emailCte+"', emailCte = '"+this.telCte+"' WHERE idCliente = "+this.idCliente;
+        String query = "UPDATE tblcliente SET nombreCte = '"+this.nombreCte+"'," + "telCte = '"+this.emailCte+"', emailCte = '"+this.telCte+"' WHERE idCliente = "+this.idCliente;
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -72,7 +72,7 @@ public class ClienteDAO {
 
     public void DELETE(){
 
-        String query = "DELETE FROM tblCliente WHERE idCliente = " + this.idCliente;
+        String query = "DELETE FROM tblcliente WHERE idCliente = " + this.idCliente;
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -83,7 +83,7 @@ public class ClienteDAO {
 
     public ObservableList<ClienteDAO> SELECTALL(){
         ClienteDAO objCte;
-        String query = "SELECT * FROM tblCliente";
+        String query = "SELECT * FROM tblcliente";
         ObservableList<ClienteDAO> listaC = FXCollections.observableArrayList();
         try{
             Statement stmt = Conexion.connection.createStatement();
@@ -92,8 +92,8 @@ public class ClienteDAO {
                 objCte = new ClienteDAO();
                 objCte.idCliente = res.getInt(1);
                 objCte.nombreCte = res.getString(2);
-                objCte.telCte = res.getString(3);
-                objCte.emailCte = res.getString(4);
+                objCte.emailCte = res.getString(3);
+                objCte.telCte = res.getString(4);
                 listaC.add(objCte);
             }
         } catch (Exception e) {

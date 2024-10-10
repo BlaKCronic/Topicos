@@ -12,10 +12,11 @@ import org.example.topicos.models.ClienteDAO;
 
 public class ListaClientes extends Stage {
 
-    private TableView<ClienteDAO> tbvClientes;
+    private TableView<ClienteDAO> tblCliente;
     private ToolBar tlbMenu;
     private VBox vBox;
     private Scene escena;
+    private Button btnAgregar;
 
     public ListaClientes(){
         CrerUI();
@@ -32,10 +33,10 @@ public class ListaClientes extends Stage {
         btnAddCte.setGraphic(imv);
         tlbMenu.getItems().add(btnAddCte);
 
-        tbvClientes = new TableView<>();
+        tblCliente = new TableView<>();
         CrearTable();
 
-        vBox = new VBox(tlbMenu, tbvClientes);
+        vBox = new VBox(tlbMenu, tblCliente);
         escena = new Scene(vBox, 600, 250);
     }
 
@@ -66,7 +67,7 @@ public class ListaClientes extends Stage {
             }
         });
 
-        tbvClientes.getColumns().addAll(tbcNmCte,tbcEmailCte,tbcTelCte,tbcEditar);
-        tbvClientes.setItems(objCte.SELECTALL());
+        tblCliente.getColumns().addAll(tbcNmCte,tbcEmailCte,tbcTelCte,tbcEditar,tbcEliminar);
+        tblCliente.setItems(objCte.SELECTALL());
     }
 }

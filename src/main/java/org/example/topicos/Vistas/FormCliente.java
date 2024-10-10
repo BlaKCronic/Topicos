@@ -39,7 +39,7 @@ public class FormCliente  extends Stage {
         vBox = new VBox(txtNomCte, txtCorrCte, txtTelCte, btnGuardar);
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(10);
-        escena = new Scene(vBox, 150, 150);
+        escena = new Scene(vBox, 350, 350);
     }
 
     private void GuardarCliente(){
@@ -53,7 +53,7 @@ public class FormCliente  extends Stage {
             type = Alert.AlertType.INFORMATION;
 
         }else{
-            msj = "No Registro Insertado, intente de nuevo";
+            msj = "Registro NO Insertado, intente de nuevo";
             type = Alert.AlertType.ERROR;
 
         }
