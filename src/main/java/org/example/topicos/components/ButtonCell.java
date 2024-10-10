@@ -1,8 +1,12 @@
 package org.example.topicos.components;
 
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import org.example.topicos.models.ClienteDAO;
+
+import java.util.Optional;
 
 public class ButtonCell extends TableCell<ClienteDAO, String> {
 
@@ -10,6 +14,25 @@ public class ButtonCell extends TableCell<ClienteDAO, String> {
 
     public ButtonCell(String str){
         btnCelda = new Button(str);
+        btnCelda.setOnAction(actionEvent -> EventoBoton(str));
+    }
+
+    private void EventoBoton(String str) {
+        ClienteDAO objCte;
+        if (str.equals("Editar")){
+
+        }else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Mensaje del sistema");
+            alert.setContentText("Deseas eliminar el registro?");
+            Optional<ButtonType> option = alert.showAndWait();
+            if (option.get() == ButtonType.OK){
+                objCte = this.getTableView().getItems().get(this.getIndex());
+                objCte.DELETE();
+                this.getTableView().setItems(objCte.SELECTALL());
+                this.getTableView().refresh();
+            }
+        }
     }
 
     @Override

@@ -39,7 +39,7 @@ public class FormCliente  extends Stage {
         vBox = new VBox(txtNomCte, txtCorrCte, txtTelCte, btnGuardar);
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(10);
-        escena = new Scene(vBox, 350, 350);
+        escena = new Scene(vBox, 150, 150);
     }
 
     private void GuardarCliente(){
