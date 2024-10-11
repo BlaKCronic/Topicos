@@ -29,7 +29,7 @@ public class ListaClientes extends Stage {
         tlbMenu = new ToolBar();
         ImageView imv = new ImageView(getClass().getResource("/images/derecha.png").toString());
         Button btnAddCte = new Button();
-        btnAddCte.setOnAction(actionEvent -> new FormCliente());
+        btnAddCte.setOnAction(actionEvent -> new FormCliente(tblCliente, null));
         btnAddCte.setGraphic(imv);
         tlbMenu.getItems().add(btnAddCte);
 

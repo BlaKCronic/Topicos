@@ -1,5 +1,6 @@
 package org.example.topicos.Vistas;
 
+import javafx.scene.control.TableView;
 import org.example.topicos.models.ClienteDAO;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -18,10 +19,21 @@ public class FormCliente  extends Stage {
     private VBox vBox;
     private ClienteDAO objCte;
     private Scene escena;
+    private TableView<ClienteDAO> tbvCliente;
 
-    public FormCliente() {
-        objCte = new ClienteDAO();
+    public FormCliente(TableView<ClienteDAO> tbv, ClienteDAO objC) {
+        tbvCliente = tbv;
         CrearUI();
+
+        if (objC != null) {
+            this.objCte = objC;
+            txtNomCte.setText(objCte.getNombreCte());
+            txtCorrCte.setText(objCte.getEmailCte());
+            txtTelCte.setText(objCte.getTelCte());
+        }else {
+            this.objCte = new ClienteDAO();
+        }
+
         this.setTitle("Agregar Cliente :)");
         this.setScene(escena);
         this.show();
@@ -63,6 +75,8 @@ public class FormCliente  extends Stage {
         alerta.setContentText(msj);
         alerta.showAndWait();
 
+        tbvCliente.setItems(objCte.SELECTALL());
+        tbvCliente.refresh();
     }
 
 
