@@ -34,9 +34,10 @@ public class FormCliente  extends Stage {
 
         }else {
             this.objCte = new ClienteDAO();
+            this.setTitle("Agregar Cliente :)");
+
         }
 
-        this.setTitle("Agregar Cliente :)");
         this.setScene(escena);
         this.show();
     }
@@ -62,20 +63,25 @@ public class FormCliente  extends Stage {
         objCte.setEmailCte(txtCorrCte.getText());
         String msj;
         Alert.AlertType type;
-        if (objCte.Insert() > 0){
-            msj = "Registro Insertado";
-            type = Alert.AlertType.INFORMATION;
 
-        }else{
-            msj = "Registro NO Insertado, intente de nuevo";
-            type = Alert.AlertType.ERROR;
+        if (objCte.getIdCliente() > 0){
+            objCte.UPDATE();
+        }else {
+            if (objCte.Insert() > 0) {
+                msj = "Registro Insertado";
+                type = Alert.AlertType.INFORMATION;
 
+            } else {
+                msj = "Registro NO Insertado, intente de nuevo";
+                type = Alert.AlertType.ERROR;
+
+            }
+
+            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            alerta.setTitle("Mensaje del Sistema :)");
+            alerta.setContentText(msj);
+            alerta.showAndWait();
         }
-
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Mensaje del Sistema :)");
-        alerta.setContentText(msj);
-        alerta.showAndWait();
 
         tbvCliente.setItems(objCte.SELECTALL());
         tbvCliente.refresh();
