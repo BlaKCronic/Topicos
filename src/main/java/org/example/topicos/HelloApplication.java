@@ -10,10 +10,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.example.topicos.Vistas.Calculadora;
-import org.example.topicos.Vistas.ListaClientes;
-import org.example.topicos.Vistas.Loteria;
-import org.example.topicos.Vistas.MinesWeeper;
+import org.example.topicos.Vistas.*;
 import org.example.topicos.models.Conexion;
 
 import java.io.IOException;
@@ -31,6 +28,7 @@ public class HelloApplication extends Application {
         mitloteria.setOnAction(actionEvent -> new Loteria());
         mitSpotify = new MenuItem("Spotify");
         mitSpotify.setOnAction(actionEvent -> new ListaClientes());
+        mitSpotify.setOnAction(actionEvent -> new ListaVenta());
         mitMines = new MenuItem("Busca minas");
         mitMines.setOnAction(actionEvent -> new MinesWeeper());
         menCompetencia1 = new Menu("Competencia 1");

@@ -39,7 +39,7 @@ public class VentasDAO {
 
     public int Insert(){
         int rowCount;
-        String query = "INSERT INTO tblventa(fechaVenta)" + " values('" + this.fechaVenta + "')";
+        String query = "INSERT INTO tblventa(fechaVenta, idCliente)" + " values('" + this.fechaVenta + "', " + this.idCliente + ")";
         try {
             Statement stmt = Conexion.connection.createStatement();
             rowCount = stmt.executeUpdate(query);
@@ -51,7 +51,7 @@ public class VentasDAO {
     }
 
     public void UPDATE(){
-        String query = "UPDATE tblventa SET fechaVenta = '" + this.fechaVenta + "' WHERE idVenta = " + this.idVenta;
+        String query = "UPDATE tblventa SET fechaVenta = '" + this.fechaVenta + "', " + "idCliente = " + this.idCliente + " WHERE idVenta = " + this.idVenta;
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);

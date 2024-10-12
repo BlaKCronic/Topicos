@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import org.example.topicos.components.ButtonCell;
+import org.example.topicos.components.ButtonCellVentas;
 import org.example.topicos.models.VentasDAO;
 
 public class ListaVenta extends Stage {
@@ -49,7 +49,7 @@ public class ListaVenta extends Stage {
         tbvEditar.setCellFactory(new Callback<TableColumn<VentasDAO, String>, TableCell<VentasDAO, String>>() {
             @Override
             public TableCell<VentasDAO, String> call(TableColumn<VentasDAO, String> ventasDAOStringTableColumn) {
-                return new ButtonCell("Editar");
+                return new ButtonCellVentas("Editar");
             }
         });
 
@@ -57,7 +57,7 @@ public class ListaVenta extends Stage {
         tbvEliminar.setCellFactory(new Callback<TableColumn<VentasDAO, String>, TableCell<VentasDAO, String>>() {
             @Override
             public TableCell<VentasDAO, String> call(TableColumn<VentasDAO, String> ventasDAOStringTableColumn) {
-                return new ButtonCell("Eliminar");
+                return new ButtonCellVentas("Eliminar");
             }
         });
 
