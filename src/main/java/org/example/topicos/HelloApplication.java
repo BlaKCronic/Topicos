@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
     private Menu menCompetencia1, menuCompetencia2;
     private Menu menSpotify;
     private MenuItem mitCalc, mitloteria, mitMines;
-    private MenuItem mitListaVenta, mitListaClientes; // Items dentro del submenú Spotify
+    private MenuItem mitListaVenta, mitListaClientes, mitListaGenero; // Items dentro del submenú Spotify
 
     public void CrearUI() {
         // Crear items del menú
@@ -39,8 +39,11 @@ public class HelloApplication extends Application {
         mitListaClientes = new MenuItem("Lista de Clientes");
         mitListaClientes.setOnAction(actionEvent -> new ListaClientes());
 
+        mitListaGenero = new MenuItem("Lista de Generos");
+        mitListaGenero.setOnAction(actionEvent -> new ListaGeneros());
+
         menSpotify = new Menu("Spotify"); // Submenú
-        menSpotify.getItems().addAll(mitListaVenta, mitListaClientes);
+        menSpotify.getItems().addAll(mitListaVenta, mitListaClientes, mitListaGenero);
 
         // Crear menú principal Competencia 1
         menCompetencia1 = new Menu("Competencia 1");

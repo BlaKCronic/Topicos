@@ -66,9 +66,11 @@ public class FormCliente  extends Stage {
 
         if (objCte.getIdCliente() > 0){
             objCte.UPDATE();
+            msj = "Registro Actualizado con éxito";
+            type = Alert.AlertType.INFORMATION;
         }else {
             if (objCte.Insert() > 0) {
-                msj = "Registro Insertado";
+                msj = "Registro Insertado con éxito";
                 type = Alert.AlertType.INFORMATION;
 
             } else {
