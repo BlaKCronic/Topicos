@@ -20,7 +20,8 @@ public class HelloApplication extends Application {
     private Menu menCompetencia1, menuCompetencia2;
     private Menu menSpotify;
     private MenuItem mitCalc, mitloteria, mitMines;
-    private MenuItem mitListaVenta, mitListaClientes, mitListaGenero; // Items dentro del submenú Spotify
+    private MenuItem mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum, mitListaCancion;
+    // Items dentro del submenú Spotify
 
     public void CrearUI() {
         // Crear items del menú
