@@ -97,7 +97,7 @@ public class FormVenta extends Stage {
             alerta.setContentText(msj);
             alerta.showAndWait();
 
-            tblVenta.setItems(objVenta.SELECALL());
+            tblVenta.setItems(objVenta.SELECTALL());
             tblVenta.refresh();
             this.close();
         } else {

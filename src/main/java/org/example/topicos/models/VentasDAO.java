@@ -12,6 +12,8 @@ public class VentasDAO {
     private int idVenta;
     private String fechaVenta;
     private int idCliente;
+    private String nombreCte ; // Nueva propiedad
+
 
     public int getIdVenta() {
         return idVenta;
@@ -35,6 +37,14 @@ public class VentasDAO {
 
     public void setIdCliente(int idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public String getNombreCliente() {
+        return nombreCte ;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCte  = nombreCliente;
     }
 
     public int Insert(){
@@ -70,23 +80,25 @@ public class VentasDAO {
         }
     }
 
-    public ObservableList<VentasDAO> SELECALL(){
-        VentasDAO objVen;
-        String query = "SELECT * FROM tblventa";
-        ObservableList<VentasDAO> listaV = FXCollections.observableArrayList();
+    public ObservableList<VentasDAO> SELECTALL() {
+        ObservableList<VentasDAO> listaVentas = FXCollections.observableArrayList();
+        String query = "SELECT v.idVenta, v.fechaVenta, v.idCliente, c.nombreCte " +
+                "FROM tblVenta v " +
+                "JOIN tblCliente c ON v.idCliente = c.idCliente"; // JOIN para obtener el nombre del cliente
         try {
             Statement stmt = Conexion.connection.createStatement();
             ResultSet res = stmt.executeQuery(query);
-            while (res.next()){
-                objVen = new VentasDAO();
-                objVen.idVenta = res.getInt(1);
-                objVen.fechaVenta = res.getString(2);
-                objVen.idCliente = res.getInt(3);
-                listaV.add(objVen);
+            while (res.next()) {
+                VentasDAO venta = new VentasDAO();
+                venta.setIdVenta(res.getInt("idVenta"));
+                venta.setFechaVenta(res.getString("fechaVenta"));
+                venta.setIdCliente(res.getInt("idCliente"));
+                venta.setNombreCliente(res.getString("nombreCte")); // Asignar el nombre del cliente
+                listaVentas.add(venta);
             }
-        }catch (Exception e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return listaV;
+        return listaVentas;
     }
 }

@@ -29,7 +29,7 @@ public class ButtonCellVentas extends TableCell<VentasDAO, String> {
             Optional<ButtonType> option = alert.showAndWait();
             if (option.get() == ButtonType.OK) {
                 objVenta.DELETE();
-                this.getTableView().setItems(objVenta.SELECALL());
+                this.getTableView().setItems(objVenta.SELECTALL());
                 this.getTableView().refresh();
             }
         }

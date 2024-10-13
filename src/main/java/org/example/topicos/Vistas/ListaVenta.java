@@ -16,11 +16,10 @@ public class ListaVenta extends Stage {
     private ToolBar tlbMenu;
     private VBox vBox;
     private Scene escena;
-    private Button btnAgregar;
 
-    public ListaVenta(){
+    public ListaVenta() {
         CrearUI();
-        this.setTitle("Table de ventas");
+        this.setTitle("Lista de Ventas");
         this.setScene(escena);
         this.show();
     }
@@ -28,22 +27,27 @@ public class ListaVenta extends Stage {
     private void CrearUI() {
         tlbMenu = new ToolBar();
         ImageView imv = new ImageView(getClass().getResource("/images/derecha.png").toString());
-        Button btnAddVen = new Button();
-        btnAddVen.setOnAction(actionEvent -> new FormVenta(tblVenta, null));
-        btnAddVen.setGraphic(imv);
-        tlbMenu.getItems().add(btnAddVen);
+        Button btnAddVenta = new Button();
+        btnAddVenta.setOnAction(actionEvent -> new FormVenta(tblVenta, null));
+        btnAddVenta.setGraphic(imv);
+        tlbMenu.getItems().add(btnAddVenta);
 
         tblVenta = new TableView<>();
-        CrearTabla();
+        CrearTable();
 
         vBox = new VBox(tlbMenu, tblVenta);
-        escena = new Scene(vBox, 300, 550);
+        escena = new Scene(vBox, 415, 550);
     }
 
-    private void CrearTabla() {
-        VentasDAO objVnt = new VentasDAO();
-        TableColumn<VentasDAO, String> tbvDate = new TableColumn<>("Fecha de Venta");
-        tbvDate.setCellValueFactory(new PropertyValueFactory<>("fechaVenta"));
+    private void CrearTable() {
+        VentasDAO objVenta = new VentasDAO();
+
+        TableColumn<VentasDAO, String> tbcFecha = new TableColumn<>("Fecha");
+        tbcFecha.setCellValueFactory(new PropertyValueFactory<>("fechaVenta"));
+
+        // Mostrar el nombre del cliente en lugar del ID
+        TableColumn<VentasDAO, String> tbcCliente = new TableColumn<>("Cliente");
+        tbcCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente")); // Mostrar el nombre del cliente
 
         TableColumn<VentasDAO, String> tbvEditar = new TableColumn<>("");
         tbvEditar.setCellFactory(new Callback<TableColumn<VentasDAO, String>, TableCell<VentasDAO, String>>() {
@@ -53,7 +57,7 @@ public class ListaVenta extends Stage {
             }
         });
 
-        TableColumn<VentasDAO,String> tbvEliminar = new TableColumn<>("");
+        TableColumn<VentasDAO, String> tbvEliminar = new TableColumn<>("");
         tbvEliminar.setCellFactory(new Callback<TableColumn<VentasDAO, String>, TableCell<VentasDAO, String>>() {
             @Override
             public TableCell<VentasDAO, String> call(TableColumn<VentasDAO, String> ventasDAOStringTableColumn) {
@@ -61,7 +65,7 @@ public class ListaVenta extends Stage {
             }
         });
 
-        tblVenta.getColumns().addAll(tbvDate,tbvEditar,tbvEliminar);
-        tblVenta.setItems(objVnt.SELECALL());
+        tblVenta.getColumns().addAll(tbcFecha, tbcCliente, tbvEditar, tbvEliminar);
+        tblVenta.setItems(objVenta.SELECTALL());
     }
 }
