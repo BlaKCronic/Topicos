@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
     private MenuBar menBar;
     private Menu menCompetencia1, menuCompetencia2;
     private Menu menSpotify;
-    private MenuItem mitCalc, mitloteria, mitMines;
+    private MenuItem mitCalc, mitloteria, mitMines, mitPista;
     private MenuItem mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum, mitListaCancion;
     // Items dentro del submenú Spotify
 
@@ -28,11 +28,15 @@ public class HelloApplication extends Application {
         // Crear items del menú
         mitCalc = new MenuItem("Calculadora");
         mitCalc.setOnAction(actionEvent -> new Calculadora());
+
         mitloteria = new MenuItem("Loteria");
         mitloteria.setOnAction(actionEvent -> new Loteria());
 
         mitMines = new MenuItem("Busca minas");
         mitMines.setOnAction(actionEvent -> new MinesWeeper());
+
+        mitPista = new MenuItem("Pista Hilos");
+        mitPista.setOnAction(actionEvent -> new Pista());
 
         // Submenú Spotify con sus items
         mitListaVenta = new MenuItem("Lista de Ventas");
@@ -53,6 +57,7 @@ public class HelloApplication extends Application {
 
         // Crear Competencia 2
         menuCompetencia2 = new Menu("Competencia 2");
+        menuCompetencia2.getItems().addAll(mitPista);
 
         // Crear barra de menús
         menBar = new MenuBar(menCompetencia1, menuCompetencia2);
