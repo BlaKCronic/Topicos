@@ -72,12 +72,6 @@ public class HelloApplication extends Application {
         bdpPrincipal = new BorderPane();
         bdpPrincipal.setTop(topBox);
 
-
-        new CorredorThread("Eurety").start();
-        new CorredorThread("Abuelo").start();
-        new CorredorThread("Donato").start();
-        new CorredorThread("Temach").start();
-        new CorredorThread("quique").start();
     }
 
     @Override

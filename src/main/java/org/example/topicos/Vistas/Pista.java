@@ -40,9 +40,19 @@ public class Pista extends Stage {
         }
 
         btnIniciar = new Button("iniciar carrera");
+        btnIniciar.setOnAction(actionEvent -> IniciarCarrera());
         vBox = new VBox(gdpPista,btnIniciar);
         vBox.setSpacing(10);
         vBox.setPadding(new Insets(10));
         escena = new Scene(vBox,200,200);
+    }
+
+    private void IniciarCarrera(){
+
+        thrCorredores = new CorredorThread[5];
+        for (int i = 0; i < 0; i++) {
+            thrCorredores[i] = new CorredorThread(strCorredores[i],pgbCarriles[i]);
+            thrCorredores[i].start();
+        }
     }
 }

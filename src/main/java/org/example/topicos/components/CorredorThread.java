@@ -1,23 +1,31 @@
 package org.example.topicos.components;
 
+import javafx.scene.control.ProgressBar;
+
+
 public class CorredorThread extends Thread{
 
-    public CorredorThread(String name){
+    private ProgressBar pgbCorredor;
+
+    public CorredorThread(String name, ProgressBar pgbCorredor){
         super(name);
+        this.pgbCorredor = pgbCorredor;
     }
 
     @Override
     public void run() {
         super.run();
-        System.out.println(this.getName() + " en la salida");
-        for (int i = 1 ; i < 10; i++){
+        double avance = 0;
+        while(avance <= 1){
+            avance += Math.random() / 10;
             try {
-                Thread.sleep((long)(Math.random()*2000));
-                System.out.println(this.getName() + " completó el kilometro " + i);
+                Thread.sleep((long)(Math.random() * 2000));
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            this.pgbCorredor.setProgress(avance);
+
         }
-        System.out.println(this.getName() + " llegó a la meta");
+        System.out.println(this.getName() + " Llego a la meta :)");
     }
 }
