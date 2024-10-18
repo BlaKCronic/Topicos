@@ -28,7 +28,7 @@ public class ArtistaDAO {
 
     public int INSERT(){
         int rowCount;
-        String query = "INSERT INTO tblArtista(nombreArt)" + " values('"+this.nombreArt+"')";
+        String query = "INSERT INTO tblartista(nombreArt)" + " values('"+this.nombreArt+"')";
         try {
             Statement stmt = Conexion.connection.createStatement();
             rowCount = stmt.executeUpdate(query);
@@ -40,7 +40,7 @@ public class ArtistaDAO {
     }
 
     public void UPDATE(){
-        String query = "UPDATE tblArtista SET nombreArt = '" + this.nombreArt + "' WHERE idArtista = " + this.idArtista;
+        String query = "UPDATE tblartista SET nombreArt = '" + this.nombreArt + "' WHERE idArtista = " + this.idArtista;
         try {
             Statement stmt = Conexion.connection.createStatement();
             stmt.executeUpdate(query);
@@ -50,6 +50,12 @@ public class ArtistaDAO {
     }
 
     public void DELETE(){
-
+        String query = "DELETE FROM tblartista WHERE idArtista = " + this.idArtista;
+        try {
+            Statement stmt = Conexion.connection.createStatement();
+            stmt.executeUpdate(query);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
