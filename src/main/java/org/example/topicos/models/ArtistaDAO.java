@@ -1,7 +1,9 @@
-package org.example.topicos.Vistas;
+package org.example.topicos.models;
 
-import org.example.topicos.models.Conexion;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -57,5 +59,24 @@ public class ArtistaDAO {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public ObservableList<ArtistaDAO> SELECTALL(){
+        ArtistaDAO objArt;
+        String query = "SELECT * FROM tblartista";
+        ObservableList<ArtistaDAO> ListaA = FXCollections.observableArrayList();
+        try{
+            Statement stmt = Conexion.connection.createStatement();
+            ResultSet res = stmt.executeQuery(query);
+            while(res.next()){
+                objArt = new ArtistaDAO();
+                objArt.idArtista = res.getInt("idArtista ");
+                objArt.nombreArt = res.getString(nombreArt );
+                ListaA.add(objArt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ListaA;
     }
 }
