@@ -70,8 +70,8 @@ public class ArtistaDAO {
             ResultSet res = stmt.executeQuery(query);
             while(res.next()){
                 objArt = new ArtistaDAO();
-                objArt.idArtista = res.getInt("idArtista ");
-                objArt.nombreArt = res.getString(nombreArt );
+                objArt.idArtista = res.getInt("idArtista");
+                objArt.nombreArt = res.getString("nombreArt");
                 ListaA.add(objArt);
             }
         } catch (Exception e) {
