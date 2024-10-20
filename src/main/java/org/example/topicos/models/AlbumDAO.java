@@ -21,21 +21,22 @@ public class AlbumDAO {
         this.idAlbum = idAlbum;
     }
 
-    public String getTitulo() {
+    public String getTituloAlbum() {
         return tituloAlbum;
     }
 
-    public void setTitulo(String titulo) {
-        this.tituloAlbum = titulo;
+    public void setTituloAlbum(String tituloAlbum) {
+        this.tituloAlbum = tituloAlbum;
     }
 
-    public String getLanzamiento() {
+    public String getFechaAlbum() {
         return fechaAlbum;
     }
 
-    public void setLanzamiento(String lanzamiento) {
-        this.fechaAlbum = lanzamiento;
+    public void setFechaAlbum(String fechaAlbum) {
+        this.fechaAlbum = fechaAlbum;
     }
+
 
     public int INSERT() {
         int rowCount;
@@ -80,8 +81,8 @@ public class AlbumDAO {
             while (rs.next()) {
                 AlbumDAO album = new AlbumDAO();
                 album.setIdAlbum(rs.getInt("idAlbum"));
-                album.setTitulo(rs.getString("tituloAlbum"));
-                album.setLanzamiento(rs.getString("fechaAlbum"));
+                album.setTituloAlbum(rs.getString("tituloAlbum"));
+                album.setFechaAlbum(rs.getString("fechaAlbum"));
                 listaAlbums.add(album);
             }
         } catch (SQLException e) {

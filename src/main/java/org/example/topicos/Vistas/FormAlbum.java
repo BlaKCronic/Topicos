@@ -26,8 +26,8 @@ public class FormAlbum extends Stage {
 
         if (album != null) {
             this.objAlbum = album;
-            txtTituloAlbum.setText(objAlbum.getTitulo());
-            txtFechaAlbum.setText(objAlbum.getLanzamiento());
+            txtTituloAlbum.setText(objAlbum.getTituloAlbum());
+            txtFechaAlbum.setText(objAlbum.getFechaAlbum());
             this.setTitle("Editar Album");
         } else {
             this.objAlbum = new AlbumDAO();
@@ -52,8 +52,8 @@ public class FormAlbum extends Stage {
     }
 
     private void GuardarAlbum(){
-        objAlbum.setTitulo(txtTituloAlbum.getText());
-        objAlbum.setLanzamiento(txtFechaAlbum.getText());
+        objAlbum.setTituloAlbum(txtTituloAlbum.getText());
+        objAlbum.setFechaAlbum(txtFechaAlbum.getText());
         String msj;
         Alert.AlertType type;
 
