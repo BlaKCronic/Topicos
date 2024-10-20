@@ -51,8 +51,11 @@ public class HelloApplication extends Application {
         mitListaArtista = new MenuItem("Lista Artistas");
         mitListaArtista.setOnAction(actionEvent -> new ListaArtistas());
 
+        mitListaAlbum = new MenuItem("Lista de Albums");
+        mitListaAlbum.setOnAction(actionEvent -> new ListaAlbum());
+
         menSpotify = new Menu("Spotify"); // Submenú
-        menSpotify.getItems().addAll(mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista);
+        menSpotify.getItems().addAll(mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum);
 
         // Crear menú principal Competencia 1
         menCompetencia1 = new Menu("Competencia 1");
