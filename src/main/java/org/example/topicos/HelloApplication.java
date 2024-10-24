@@ -10,7 +10,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.example.topicos.Vistas.*;
-import org.example.topicos.components.CorredorThread;
 import org.example.topicos.models.Conexion;
 
 import java.io.IOException;
@@ -54,8 +53,11 @@ public class HelloApplication extends Application {
         mitListaAlbum = new MenuItem("Lista de Albums");
         mitListaAlbum.setOnAction(actionEvent -> new ListaAlbum());
 
+        mitListaCancion = new MenuItem("Lista de Canciones");
+        mitListaCancion.setOnAction(actionEvent -> new ListaCancion());
+
         menSpotify = new Menu("Spotify"); // Submenú
-        menSpotify.getItems().addAll(mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum);
+        menSpotify.getItems().addAll(mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum, mitListaCancion);
 
         // Crear menú principal Competencia 1
         menCompetencia1 = new Menu("Competencia 1");
