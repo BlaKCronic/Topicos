@@ -13,6 +13,7 @@ public class FormCancion extends Stage {
 
     private TextField txtTituloCancion;
     private TextField txtDuracionCancion;
+    private TextField txtPrecioCancion;
     private ComboBox<GeneroDAO> cmbGenero;
     private Button btnGuardar;
     private VBox vBox;
@@ -28,6 +29,7 @@ public class FormCancion extends Stage {
             this.objCancion = cancion;
             txtTituloCancion.setText(objCancion.getTituloCan());
             txtDuracionCancion.setText(objCancion.getDuracionCan());
+            txtPrecioCancion.setText(String.valueOf(objCancion.getPrecioCan()));
             cmbGenero.setValue(getGeneroById(objCancion.getIdGenero()));
             this.setTitle("Editar Canción");
         } else {
@@ -46,13 +48,16 @@ public class FormCancion extends Stage {
         txtDuracionCancion = new TextField();
         txtDuracionCancion.setPromptText("Ingrese la duración de la canción (HH:MM:SS)");
 
+        txtPrecioCancion = new TextField();
+        txtPrecioCancion.setPromptText("Ingrese el precio de la canción");
+
         cmbGenero = new ComboBox<>();
         cargarGeneros();
 
         btnGuardar = new Button("Guardar");
         btnGuardar.setOnAction(actionEvent -> guardarCancion());
 
-        vBox = new VBox(txtTituloCancion, txtDuracionCancion, cmbGenero, btnGuardar);
+        vBox = new VBox(txtTituloCancion, txtDuracionCancion, txtPrecioCancion, cmbGenero, btnGuardar);
         vBox.setPadding(new Insets(10));
         vBox.setSpacing(10);
         escena = new Scene(vBox, 300, 250);
@@ -76,6 +81,7 @@ public class FormCancion extends Stage {
     private void guardarCancion() {
         objCancion.setTituloCan(txtTituloCancion.getText());
         objCancion.setDuracionCan(txtDuracionCancion.getText());
+        objCancion.setPrecioCan(Float.parseFloat(txtPrecioCancion.getText()));
         GeneroDAO generoSeleccionado = cmbGenero.getValue();
 
         if (generoSeleccionado != null) {

@@ -15,6 +15,16 @@ public class CancionDAO {
     private int idGenero; // Llave foránea
     private String nombreGen; // Nombre del género
 
+    public float getPrecioCan() {
+        return precioCan;
+    }
+
+    public void setPrecioCan(float precioCan) {
+        this.precioCan = precioCan;
+    }
+
+    private float precioCan;
+
     public int getIdCancion() {
         return idCancion;
     }
@@ -57,8 +67,8 @@ public class CancionDAO {
 
     public int INSERT() {
         int rowCount;
-        String query = "INSERT INTO tblcancion(tituloCan, duracionCan, idGenero) " +
-                "VALUES('" + this.tituloCan + "', '" + this.duracionCan + "', " + this.idGenero + ")";
+        String query = "INSERT INTO tblCancion (tituloCan, duracionCan, idGenero, precioCan) " +
+                "VALUES('" + this.tituloCan + "', '" + this.duracionCan + "', " + this.idGenero + ", " + this.precioCan + ")";
         try {
             Statement stmt = Conexion.connection.createStatement();
             rowCount = stmt.executeUpdate(query);
@@ -70,8 +80,9 @@ public class CancionDAO {
     }
 
     public void UPDATE() {
-        String query = "UPDATE tblcancion SET tituloCan = '" + this.tituloCan + "', " +
-                "duracionCan = '" + this.duracionCan + "', idGenero = " + this.idGenero +
+        String query = "UPDATE tblCancion SET tituloCan = '" + this.tituloCan + "', " +
+                "duracionCan = '" + this.duracionCan + "', idGenero = " + this.idGenero + ", " +
+                "precioCan = " + this.precioCan +
                 " WHERE idCancion = " + this.idCancion;
         try {
             Statement stmt = Conexion.connection.createStatement();
@@ -93,9 +104,9 @@ public class CancionDAO {
 
     public ObservableList<CancionDAO> SELECTALL() {
         ObservableList<CancionDAO> listaCanciones = FXCollections.observableArrayList();
-        String query = "SELECT c.idCancion, c.tituloCan, c.duracionCan, c.idGenero, g.nombreGen " +
-                "FROM tblcancion c " +
-                "JOIN tblgenero g ON c.idGenero = g.idGenero"; // JOIN para obtener el nombre del género
+        String query = "SELECT c.idCancion, c.tituloCan, c.duracionCan, c.idGenero, c.precioCan, g.nombreGen " +
+                "FROM tblCancion c " +
+                "JOIN tblGenero g ON c.idGenero = g.idGenero";
         try {
             Statement stmt = Conexion.connection.createStatement();
             ResultSet res = stmt.executeQuery(query);
@@ -105,7 +116,8 @@ public class CancionDAO {
                 cancion.setTituloCan(res.getString("tituloCan"));
                 cancion.setDuracionCan(res.getString("duracionCan"));
                 cancion.setIdGenero(res.getInt("idGenero"));
-                cancion.setNombreGen(res.getString("nombreGen")); // Asignar el nombre del género
+                cancion.setPrecioCan(res.getFloat("precioCan"));
+                cancion.setNombreGen(res.getString("nombreGen"));
                 listaCanciones.add(cancion);
             }
         } catch (SQLException e) {

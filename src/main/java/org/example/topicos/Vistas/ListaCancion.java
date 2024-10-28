@@ -51,6 +51,9 @@ public class ListaCancion extends Stage {
         TableColumn<CancionDAO, String> tbcGenero = new TableColumn<>("Género");
         tbcGenero.setCellValueFactory(new PropertyValueFactory<>("nombreGen"));
 
+        TableColumn<CancionDAO, Float> tbcPrecio = new TableColumn<>("Precio");
+        tbcPrecio.setCellValueFactory(new PropertyValueFactory<>("precioCan"));
+
         TableColumn<CancionDAO, String> tbcEditar = new TableColumn<>("");
         tbcEditar.setCellFactory(new Callback<TableColumn<CancionDAO, String>, TableCell<CancionDAO, String>>() {
             @Override
@@ -67,7 +70,7 @@ public class ListaCancion extends Stage {
             }
         });
 
-        tblCancion.getColumns().addAll(tbcTitulo, tbcDuracion, tbcGenero, tbcEditar, tbcEliminar);
+        tblCancion.getColumns().addAll(tbcTitulo, tbcDuracion, tbcGenero, tbcPrecio, tbcEditar, tbcEliminar);
         tblCancion.setItems(objCancion.SELECTALL());
     }
 }
