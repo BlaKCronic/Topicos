@@ -20,7 +20,7 @@ public class HelloApplication extends Application {
     private Menu menCompetencia1, menuCompetencia2;
     private Menu menSpotify;
     private MenuItem mitCalc, mitloteria, mitMines, mitPista;
-    private MenuItem mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum, mitListaCancion;
+    private MenuItem mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum, mitListaCancion, mitListaDetallesDeVen, mitListaAlbum_Cancion, mitListaInter ;
     // Items dentro del submenú Spotify
 
     public void CrearUI() {
@@ -56,8 +56,11 @@ public class HelloApplication extends Application {
         mitListaCancion = new MenuItem("Lista de Canciones");
         mitListaCancion.setOnAction(actionEvent -> new ListaCancion());
 
+        mitListaDetallesDeVen = new MenuItem("Detalles deVentas");
+        mitListaDetallesDeVen.setOnAction(actionEvent -> new ListaDetalleVenta());
+
         menSpotify = new Menu("Spotify"); // Submenú
-        menSpotify.getItems().addAll(mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum, mitListaCancion);
+        menSpotify.getItems().addAll(mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum, mitListaCancion, mitListaDetallesDeVen);
 
         // Crear menú principal Competencia 1
         menCompetencia1 = new Menu("Competencia 1");
