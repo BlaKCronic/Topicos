@@ -9,6 +9,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.example.topicos.competencia2.*;
 import org.example.topicos.Vistas.*;
 import org.example.topicos.models.Conexion;
 
@@ -19,12 +20,15 @@ public class HelloApplication extends Application {
     private MenuBar menBar;
     private Menu menCompetencia1, menuCompetencia2;
     private Menu menSpotify;
-    private MenuItem mitCalc, mitloteria, mitMines, mitPista;
+    //items de Competencia 1
+    private MenuItem mitCalc, mitloteria, mitMines;
+    //items de Competencia 2
+    private MenuItem mitPista, mitSimulador;
     private MenuItem mitListaVenta, mitListaClientes, mitListaGenero, mitListaArtista, mitListaAlbum, mitListaCancion, mitListaDetallesDeVen, mitListaAlbum_Cancion, mitListaInter ;
     // Items dentro del submenú Spotify
 
     public void CrearUI() {
-        // Crear items del menú
+        // Crear items del menú de Competencia 1
         mitCalc = new MenuItem("Calculadora");
         mitCalc.setOnAction(actionEvent -> new Calculadora());
 
@@ -34,8 +38,12 @@ public class HelloApplication extends Application {
         mitMines = new MenuItem("Busca minas");
         mitMines.setOnAction(actionEvent -> new MinesWeeper());
 
+        // Crear items del menú de Competencia 2
         mitPista = new MenuItem("Pista Hilos");
         mitPista.setOnAction(actionEvent -> new Pista());
+
+        mitSimulador = new MenuItem("Simulador");
+        mitSimulador.setOnAction(actionEvent -> new ListaTareasImpresion());
 
         // Submenú Spotify con sus items
         mitListaVenta = new MenuItem("Lista de Ventas");
@@ -68,7 +76,7 @@ public class HelloApplication extends Application {
 
         // Crear Competencia 2
         menuCompetencia2 = new Menu("Competencia 2");
-        menuCompetencia2.getItems().addAll(mitPista);
+        menuCompetencia2.getItems().addAll(mitPista, mitSimulador);
 
         // Crear barra de menús
         menBar = new MenuBar(menCompetencia1, menuCompetencia2);
