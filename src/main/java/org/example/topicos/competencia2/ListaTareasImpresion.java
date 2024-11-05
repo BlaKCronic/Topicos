@@ -101,7 +101,7 @@ public class ListaTareasImpresion extends Stage {
                         double progreso = (double) i / numHojas;
                         Platform.runLater(() -> progressBar.setProgress(progreso));
                         try {
-                            Thread.sleep(300);  // Simula el tiempo de impresión por hoja
+                            Thread.sleep(200);  // Simula el tiempo de impresión por hoja
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
